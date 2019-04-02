@@ -10,6 +10,22 @@
 		4C4AD9752250238000EC174A /* SQL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4AD96B2250238000EC174A /* SQL.framework */; };
 		4C4AD97A2250238000EC174A /* SQLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9792250238000EC174A /* SQLTests.swift */; };
 		4C4AD97C2250238000EC174A /* SQL.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C4AD96E2250238000EC174A /* SQL.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C4AD986225023B400EC174A /* SQL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD985225023B400EC174A /* SQL.swift */; };
+		4C4AD9882250292D00EC174A /* Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9872250292D00EC174A /* Statement.swift */; };
+		4C4AD98B22502CA100EC174A /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD98A22502CA100EC174A /* Connection.swift */; };
+		4C4AD98D22503E8B00EC174A /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD98C22503E8B00EC174A /* Status.swift */; };
+		4C4AD98F2250445600EC174A /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD98E2250445600EC174A /* Database.swift */; };
+		4C4AD991225056C400EC174A /* Bindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD990225056C400EC174A /* Bindable.swift */; };
+		4C4AD99322505AFB00EC174A /* ColumnType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD99222505AFB00EC174A /* ColumnType.swift */; };
+		4C4AD99522505B5500EC174A /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD99422505B5500EC174A /* Table.swift */; };
+		4C4AD999225129D100EC174A /* Unbindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD998225129D100EC174A /* Unbindable.swift */; };
+		4C4AD99B2251380500EC174A /* Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD99A2251380500EC174A /* Reader.swift */; };
+		4C4AD99D22516A5F00EC174A /* ClauseJoinRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD99C22516A5F00EC174A /* ClauseJoinRule.swift */; };
+		4C4AD99F22516E9A00EC174A /* Database+Read.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD99E22516E9A00EC174A /* Database+Read.swift */; };
+		4C4AD9A1225170DE00EC174A /* Database+Replace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9A0225170DE00EC174A /* Database+Replace.swift */; };
+		4C4AD9A32251718000EC174A /* Database+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9A22251718000EC174A /* Database+Table.swift */; };
+		4C4AD9A52253E0AA00EC174A /* WhereClause.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9A42253E0AA00EC174A /* WhereClause.swift */; };
+		4C4AD9A72253F0B400EC174A /* BetterFilterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9A62253F0B400EC174A /* BetterFilterable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +45,23 @@
 		4C4AD9742250238000EC174A /* SQLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SQLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C4AD9792250238000EC174A /* SQLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLTests.swift; sourceTree = "<group>"; };
 		4C4AD97B2250238000EC174A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4C4AD985225023B400EC174A /* SQL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQL.swift; sourceTree = "<group>"; };
+		4C4AD9872250292D00EC174A /* Statement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statement.swift; sourceTree = "<group>"; };
+		4C4AD98A22502CA100EC174A /* Connection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
+		4C4AD98C22503E8B00EC174A /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
+		4C4AD98E2250445600EC174A /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
+		4C4AD990225056C400EC174A /* Bindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bindable.swift; sourceTree = "<group>"; };
+		4C4AD99222505AFB00EC174A /* ColumnType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnType.swift; sourceTree = "<group>"; };
+		4C4AD99422505B5500EC174A /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
+		4C4AD998225129D100EC174A /* Unbindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unbindable.swift; sourceTree = "<group>"; };
+		4C4AD99A2251380500EC174A /* Reader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reader.swift; sourceTree = "<group>"; };
+		4C4AD99C22516A5F00EC174A /* ClauseJoinRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClauseJoinRule.swift; sourceTree = "<group>"; };
+		4C4AD99E22516E9A00EC174A /* Database+Read.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Database+Read.swift"; sourceTree = "<group>"; };
+		4C4AD9A0225170DE00EC174A /* Database+Replace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Database+Replace.swift"; sourceTree = "<group>"; };
+		4C4AD9A22251718000EC174A /* Database+Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Database+Table.swift"; sourceTree = "<group>"; };
+		4C4AD9A42253E0AA00EC174A /* WhereClause.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhereClause.swift; sourceTree = "<group>"; };
+		4C4AD9A62253F0B400EC174A /* BetterFilterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetterFilterable.swift; sourceTree = "<group>"; };
+		4C4AD9A822540B0F00EC174A /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +104,23 @@
 		4C4AD96D2250238000EC174A /* SQL */ = {
 			isa = PBXGroup;
 			children = (
+				4C4AD9A822540B0F00EC174A /* MyPlayground.playground */,
+				4C4AD9A62253F0B400EC174A /* BetterFilterable.swift */,
+				4C4AD990225056C400EC174A /* Bindable.swift */,
+				4C4AD998225129D100EC174A /* Unbindable.swift */,
+				4C4AD99A2251380500EC174A /* Reader.swift */,
+				4C4AD98A22502CA100EC174A /* Connection.swift */,
+				4C4AD98E2250445600EC174A /* Database.swift */,
+				4C4AD99E22516E9A00EC174A /* Database+Read.swift */,
+				4C4AD9A0225170DE00EC174A /* Database+Replace.swift */,
+				4C4AD9A22251718000EC174A /* Database+Table.swift */,
+				4C4AD99222505AFB00EC174A /* ColumnType.swift */,
+				4C4AD99422505B5500EC174A /* Table.swift */,
+				4C4AD9872250292D00EC174A /* Statement.swift */,
+				4C4AD98C22503E8B00EC174A /* Status.swift */,
+				4C4AD985225023B400EC174A /* SQL.swift */,
+				4C4AD99C22516A5F00EC174A /* ClauseJoinRule.swift */,
+				4C4AD9A42253E0AA00EC174A /* WhereClause.swift */,
 				4C4AD96E2250238000EC174A /* SQL.h */,
 				4C4AD96F2250238000EC174A /* Info.plist */,
 			);
@@ -148,6 +198,7 @@
 				TargetAttributes = {
 					4C4AD96A2250238000EC174A = {
 						CreatedOnToolsVersion = 10.2;
+						LastSwiftMigration = 1020;
 					};
 					4C4AD9732250238000EC174A = {
 						CreatedOnToolsVersion = 10.2;
@@ -194,6 +245,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C4AD986225023B400EC174A /* SQL.swift in Sources */,
+				4C4AD9A72253F0B400EC174A /* BetterFilterable.swift in Sources */,
+				4C4AD9A52253E0AA00EC174A /* WhereClause.swift in Sources */,
+				4C4AD98B22502CA100EC174A /* Connection.swift in Sources */,
+				4C4AD991225056C400EC174A /* Bindable.swift in Sources */,
+				4C4AD9882250292D00EC174A /* Statement.swift in Sources */,
+				4C4AD99B2251380500EC174A /* Reader.swift in Sources */,
+				4C4AD9A32251718000EC174A /* Database+Table.swift in Sources */,
+				4C4AD98F2250445600EC174A /* Database.swift in Sources */,
+				4C4AD99F22516E9A00EC174A /* Database+Read.swift in Sources */,
+				4C4AD99322505AFB00EC174A /* ColumnType.swift in Sources */,
+				4C4AD999225129D100EC174A /* Unbindable.swift in Sources */,
+				4C4AD9A1225170DE00EC174A /* Database+Replace.swift in Sources */,
+				4C4AD99522505B5500EC174A /* Table.swift in Sources */,
+				4C4AD98D22503E8B00EC174A /* Status.swift in Sources */,
+				4C4AD99D22516A5F00EC174A /* ClauseJoinRule.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,7 +335,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -326,7 +393,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -341,6 +408,7 @@
 		4C4AD9802250238000EC174A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -358,6 +426,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.duct-ape.SQL";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -366,6 +435,7 @@
 		4C4AD9812250238000EC174A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -391,6 +461,7 @@
 		4C4AD9832250238000EC174A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GCX3L3HG6X;
 				INFOPLIST_FILE = SQLTests/Info.plist;
@@ -409,6 +480,7 @@
 		4C4AD9842250238000EC174A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GCX3L3HG6X;
 				INFOPLIST_FILE = SQLTests/Info.plist;
