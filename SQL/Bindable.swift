@@ -64,6 +64,12 @@ extension Optional: Bindable where Wrapped: Bindable {
 	}
 }
 
+extension UUID: Bindable {
+	public var bindingValue: Value {
+		return uuidString.bindingValue
+	}
+}
+
 extension String: Bindable {
 	public var bindingValue: Value {
 		return .text(self)

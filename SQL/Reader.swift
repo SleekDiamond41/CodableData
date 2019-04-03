@@ -17,12 +17,12 @@ extension Encodable {
 	static var tableName: String { return "\(Self.self)".lowercased() }
 }
 
-public struct Person: Codable, Equatable {
-	public let id: Int
+public struct Person: Codable, Equatable, DataModel {
+	public let id: UUID
 	public let name: String
 	public let nickName: String?
 	
-	public init(id: Int, name: String, nickName: String? = nil) {
+	public init(id: UUID, name: String, nickName: String? = nil) {
 		self.id = id
 		self.name = name
 		self.nickName = nickName
@@ -37,7 +37,7 @@ public struct Person: Codable, Equatable {
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		
-		self.id = try container.decode(Int.self, forKey: .id)
+		self.id = try container.decode(UUID.self, forKey: .id)
 		self.name = try container.decode(String.self, forKey: .name)
 		self.nickName = try container.decode(String?.self, forKey: .nickName)
 	}
@@ -146,6 +146,7 @@ class _Reader: Decoder {
 			if let U = T.self as? Unbindable.Type {
 				return try U.unbind(from: s, at: i) as! T
 			} else {
+				print(T.self)
 				let data = try Data.unbind(from: s, at: i)
 				return try jsonDecoder.decode(T.self, from: data)
 			}
