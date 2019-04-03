@@ -31,6 +31,8 @@
 		4C4AD9B42255114000EC174A /* StringComparison.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9B32255114000EC174A /* StringComparison.swift */; };
 		4C4AD9B62255291700EC174A /* Database+Count.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9B52255291700EC174A /* Database+Count.swift */; };
 		4C4AD9B822552DCD00EC174A /* TableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9B722552DCD00EC174A /* TableTests.swift */; };
+		4C4AD9BD2255386600EC174A /* Database+Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9BC2255386600EC174A /* Database+Column.swift */; };
+		4C4AD9BF2255400000EC174A /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9BE2255400000EC174A /* Configuration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +74,8 @@
 		4C4AD9B32255114000EC174A /* StringComparison.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringComparison.swift; sourceTree = "<group>"; };
 		4C4AD9B52255291700EC174A /* Database+Count.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Database+Count.swift"; sourceTree = "<group>"; };
 		4C4AD9B722552DCD00EC174A /* TableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableTests.swift; sourceTree = "<group>"; };
+		4C4AD9BC2255386600EC174A /* Database+Column.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Database+Column.swift"; sourceTree = "<group>"; };
+		4C4AD9BE2255400000EC174A /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,11 +162,13 @@
 		4C4AD9BA2255355000EC174A /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				4C4AD9BE2255400000EC174A /* Configuration.swift */,
 				4C4AD98E2250445600EC174A /* Database.swift */,
 				4C4AD9B52255291700EC174A /* Database+Count.swift */,
 				4C4AD99E22516E9A00EC174A /* Database+Read.swift */,
 				4C4AD9A0225170DE00EC174A /* Database+Replace.swift */,
 				4C4AD9A22251718000EC174A /* Database+Table.swift */,
+				4C4AD9BC2255386600EC174A /* Database+Column.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -294,11 +300,13 @@
 				4C4AD9A32251718000EC174A /* Database+Table.swift in Sources */,
 				4C4AD98F2250445600EC174A /* Database.swift in Sources */,
 				4C4AD99F22516E9A00EC174A /* Database+Read.swift in Sources */,
+				4C4AD9BF2255400000EC174A /* Configuration.swift in Sources */,
 				4C4AD9B022550BBF00EC174A /* Equality.swift in Sources */,
 				4C4AD9B42255114000EC174A /* StringComparison.swift in Sources */,
 				4C4AD9AC2254851F00EC174A /* SQLModel.swift in Sources */,
 				4C4AD99322505AFB00EC174A /* ColumnType.swift in Sources */,
 				4C4AD999225129D100EC174A /* Unbindable.swift in Sources */,
+				4C4AD9BD2255386600EC174A /* Database+Column.swift in Sources */,
 				4C4AD9AA22540ED300EC174A /* Writer.swift in Sources */,
 				4C4AD9A1225170DE00EC174A /* Database+Replace.swift in Sources */,
 				4C4AD9B62255291700EC174A /* Database+Count.swift in Sources */,

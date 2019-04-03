@@ -8,25 +8,20 @@
 
 import Foundation
 
+
 public class Database {
+	
+	public let configuration: Configuration
 	
 	let conns: (Connection, Connection)
 	
-	init(_ a: Connection, _ b: Connection) {
+	public init(_ configuration: Configuration = .default) {
+		
+		let a = Connection(configuration, queue: DispatchQueue(label: "com.CodableData.\(configuration.filename).Connection.Sync", qos: configuration.syncPriority))
+		let b = Connection(configuration, queue: DispatchQueue(label: "com.CodableData.\(configuration.filename).Connection.Async", qos: configuration.asyncPriority))
 		self.conns = (a, b)
-	}
-	
-	public convenience init(dir: URL, name: String) {
-		self.init(
-			Connection(dir: dir, name: name, queue: DispatchQueue(label: "com.SQL.Database.Connection.Sync", qos: .userInteractive)),
-			Connection(dir: dir, name: name, queue: DispatchQueue(label: "com.SQL.Database.Connection.Async", qos: .userInteractive))
-		)
-	}
-	
-	public convenience init() {
-		self.init(
-			dir: FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!.appendingPathComponent("SQL"),
-			name: "Data")
+		
+		self.configuration = configuration
 	}
 	
 	func sync<T>(_ block: (OpaquePointer) -> T) -> T {

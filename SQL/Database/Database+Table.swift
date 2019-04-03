@@ -9,32 +9,8 @@
 import Foundation
 
 
+//MARK: - Get Existing
 extension Database {
-	
-	static func _create(db: OpaquePointer, _ table: Table) {
-		Database._execute(db: db, table.query(for: .create))
-	}
-	
-	public func create(_ table: Table) {
-		sync { (db) in
-			Database._create(db: db, table)
-		}
-	}
-	
-	public func create(_ table: Table, _ handler: @escaping () -> Void) {
-		async { (db) in
-			Database._create(db: db, table)
-			handler()
-		}
-	}
-	
-	public func drop(_ table: Table) {
-		execute(table.query(for: .drop))
-	}
-	
-	public func drop(_ table: Table, _ handler: @escaping () -> Void) {
-		execute(table.query(for: .drop), handler)
-	}
 	
 	static func _table(db: OpaquePointer, named name: String) -> Table? {
 		var s = Statement("PRAGMA TABLE_INFO(\(name))")
@@ -71,33 +47,61 @@ extension Database {
 		}
 	}
 	
-	public func table(_ name: String) -> Table? {
+	func table(_ name: String) -> Table? {
 		return sync {
 			return Database._table(db: $0, named: name)
 		}
 	}
 	
-	public func table(_ name: String, _ handler: @escaping (Table?) -> Void) {
+	func table(_ name: String, _ handler: @escaping (Table?) -> Void) {
 		async {
 			handler(Database._table(db: $0, named: name))
 		}
 	}
 	
-	func _add(db: OpaquePointer, column: Table.Column, to table: Table) -> Table {
-		let query = table.query(for: .addColumn(column))
-		Database._execute(db: db, query)
-		return Database._table(db: db, named: table.name)!
+}
+
+
+//MARK: - Create
+extension Database {
+	
+	static func _create(db: OpaquePointer, _ table: Table) {
+		Database._execute(db: db, table.query(for: .create))
 	}
 	
-	public func add(column: Table.Column, to table: inout Table) {
+	func create(_ table: Table) {
 		sync { (db) in
-			table = _add(db: db, column: column, to: table)
+			Database._create(db: db, table)
 		}
 	}
 	
-	public func add(column: Table.Column, to table: Table, _ handler: @escaping (Table) -> Void) {
+	func create(_ table: Table, _ handler: @escaping () -> Void) {
 		async { (db) in
-			handler(self._add(db: db, column: column, to: table))
+			Database._create(db: db, table)
+			handler()
+		}
+	}
+	
+}
+
+
+//MARK: - Drop
+extension Database {
+	
+	static func _drop(db: OpaquePointer, _ table: Table) {
+		_execute(db: db, table.query(for: .drop))
+	}
+	
+	func drop(_ table: Table) {
+		sync { (db) in
+			Database._drop(db: db, table)
+		}
+	}
+	
+	func drop(_ table: Table, _ handler: @escaping () -> Void) {
+		async { (db) in
+			Database._drop(db: db, table)
+			handler()
 		}
 	}
 	

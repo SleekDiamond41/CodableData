@@ -11,7 +11,7 @@ import Foundation
 
 extension Database {
 	
-	private func _replace<T>(db: OpaquePointer, _ value: T) where T: Encodable {
+	private static func _replace<T>(db: OpaquePointer, _ value: T) where T: Encodable {
 		let writer = Writer<T>()
 		
 		do {
@@ -37,36 +37,28 @@ extension Database {
 		} catch {
 			fatalError(String(reflecting: error))
 		}
-		
-//		let keys = bindings.map { $0.0 }.joined(separator: ", ")
-//		let values = [String](repeating: "?", count: bindings.count).joined(separator: ", ")
-//		var s = Statement("REPLACE INTO \(table) (\(keys)) VALUES (\(values))")
-//		do {
-//			try s.prepare(in: db)
-//			defer {
-//				s.finalize()
-//			}
-//			var i: Int32 = 1
-//			for (_ , value) in bindings {
-//				try value.bindingValue.bind(into: s, at: i)
-//				i += 1
-//			}
-//			try s.step()
-//
-//		} catch {
-//			fatalError(String(reflecting: error))
-//		}
 	}
 	
-	public func replace<T>(_ value: T) where T: Encodable {
+}
+
+//MARK: - Sync
+extension Database {
+	
+	public func save<T>(_ value: T) where T: Encodable {
 		sync { db in
-			_replace(db: db, value)
+			Database._replace(db: db, value)
 		}
 	}
 	
-	public func replace<T>(_ value: T, _ handler: @escaping () -> Void) where T: Encodable {
+}
+
+
+//MARK: - Async
+extension Database {
+	
+	public func save<T>(_ value: T, _ handler: @escaping () -> Void) where T: Encodable {
 		async { db in
-			self._replace(db: db, value)
+			Database._replace(db: db, value)
 			handler()
 		}
 	}

@@ -10,7 +10,7 @@ import Foundation
 import SQLite3
 
 
-public struct Table {
+struct Table {
 	public let name: String
 	public let columns: [Column]
 	

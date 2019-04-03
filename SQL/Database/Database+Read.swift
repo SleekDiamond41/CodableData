@@ -71,6 +71,7 @@ extension Database {
 	}
 	
 }
+
 	
 //MARK: - Sync
 extension Database {
@@ -100,6 +101,7 @@ extension Database {
 	}
 	
 }
+
 	
 //MARK: - Async
 extension Database {

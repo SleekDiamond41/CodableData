@@ -62,6 +62,10 @@ public class Connection {
 		self.init(db, queue: queue)
 	}
 	
+	convenience init(_ configuration: Database.Configuration, queue: DispatchQueue) {
+		self.init(dir: configuration.directory, name: configuration.filename, queue: queue)
+	}
+	
 	public func sync<T>(_ block: () -> T) -> T {
 		return queue.sync {
 			return block()
