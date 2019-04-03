@@ -28,6 +28,7 @@
 		4C4AD9A72253F0B400EC174A /* BetterFilterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9A62253F0B400EC174A /* BetterFilterable.swift */; };
 		4C4AD9AA22540ED300EC174A /* Writer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9A922540ED300EC174A /* Writer.swift */; };
 		4C4AD9AC2254851F00EC174A /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9AB2254851F00EC174A /* DataModel.swift */; };
+		4C4AD9B022550BBF00EC174A /* Equality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9AF22550BBF00EC174A /* Equality.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		4C4AD9A822540B0F00EC174A /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		4C4AD9A922540ED300EC174A /* Writer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
 		4C4AD9AB2254851F00EC174A /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		4C4AD9AF22550BBF00EC174A /* Equality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Equality.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 				4C4AD985225023B400EC174A /* SQL.swift */,
 				4C4AD99C22516A5F00EC174A /* ClauseJoinRule.swift */,
 				4C4AD9A42253E0AA00EC174A /* Filter.swift */,
+				4C4AD9AF22550BBF00EC174A /* Equality.swift */,
 				4C4AD96E2250238000EC174A /* SQL.h */,
 				4C4AD96F2250238000EC174A /* Info.plist */,
 			);
@@ -261,6 +264,7 @@
 				4C4AD9A32251718000EC174A /* Database+Table.swift in Sources */,
 				4C4AD98F2250445600EC174A /* Database.swift in Sources */,
 				4C4AD99F22516E9A00EC174A /* Database+Read.swift in Sources */,
+				4C4AD9B022550BBF00EC174A /* Equality.swift in Sources */,
 				4C4AD9AC2254851F00EC174A /* DataModel.swift in Sources */,
 				4C4AD99322505AFB00EC174A /* ColumnType.swift in Sources */,
 				4C4AD999225129D100EC174A /* Unbindable.swift in Sources */,
