@@ -10,20 +10,44 @@ import SQLite3
 
 
 extension Decodable {
-	static var tableName: String { return "\(Self.self)" }
+	static var tableName: String { return "\(Self.self)".lowercased() }
 }
 
 extension Encodable {
-	static var tableName: String { return "\(Self.self)" }
+	static var tableName: String { return "\(Self.self)".lowercased() }
 }
 
-public struct Person: Decodable, Equatable {
+public struct Person: Codable, Equatable {
 	public let id: Int
 	public let name: String
+	public let nickName: String?
+	
+	public init(id: Int, name: String, nickName: String? = nil) {
+		self.id = id
+		self.name = name
+		self.nickName = nickName
+	}
 	
 	public enum CodingKeys: String, CodingKey {
 		case id
 		case name
+		case nickName = "nick_name"
+	}
+	
+	public init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		
+		self.id = try container.decode(Int.self, forKey: .id)
+		self.name = try container.decode(String.self, forKey: .name)
+		self.nickName = try container.decode(String?.self, forKey: .nickName)
+	}
+	
+	public func encode(to encoder: Encoder) throws {
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		
+		try container.encode(id, forKey: .id)
+		try container.encode(name, forKey: .name)
+		try container.encode(nickName, forKey: .nickName)
 	}
 }
 

@@ -116,3 +116,11 @@ extension BetterFilterable {
 	}
 	
 }
+
+
+func test() {
+	let filter = Person.filter(\.name, is: .notEqual(to: "Michael"))
+		.or(\.id, is: .greater(than: 1))
+		.or(\.name, is: .notEqual(to: "Arrington"))
+		.or(\.id, is: .less(than: 200))
+}

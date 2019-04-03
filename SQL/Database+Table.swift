@@ -11,12 +11,21 @@ import Foundation
 
 extension Database {
 	
+	static func _create(db: OpaquePointer, _ table: Table) {
+		Database._execute(db: db, table.query(for: .create))
+	}
+	
 	public func create(_ table: Table) {
-		execute(table.query(for: .create))
+		sync { (db) in
+			Database._create(db: db, table)
+		}
 	}
 	
 	public func create(_ table: Table, _ handler: @escaping () -> Void) {
-		execute(table.query(for: .create), handler)
+		async { (db) in
+			Database._create(db: db, table)
+			handler()
+		}
 	}
 	
 	public func drop(_ table: Table) {
@@ -27,7 +36,7 @@ extension Database {
 		execute(table.query(for: .drop), handler)
 	}
 	
-	public func _table(db: OpaquePointer, named name: String) -> Table? {
+	static func _table(db: OpaquePointer, named name: String) -> Table? {
 		var s = Statement("PRAGMA TABLE_INFO(\(name))")
 		
 		do {
@@ -51,7 +60,11 @@ extension Database {
 				status = try s.step()
 			}
 			
-			return Table(name: name, columns: columns)
+			if columns.count > 0 {
+				return Table(name: name, columns: columns)
+			} else {
+				return nil
+			}
 			
 		} catch {
 			fatalError(String(reflecting: error))
@@ -60,29 +73,31 @@ extension Database {
 	
 	public func table(_ name: String) -> Table? {
 		return sync {
-			return _table(db: $0, named: name)
+			return Database._table(db: $0, named: name)
 		}
 	}
 	
 	public func table(_ name: String, _ handler: @escaping (Table?) -> Void) {
 		async {
-			handler(self._table(db: $0, named: name))
+			handler(Database._table(db: $0, named: name))
 		}
+	}
+	
+	func _add(db: OpaquePointer, column: Table.Column, to table: Table) -> Table {
+		let query = table.query(for: .addColumn(column))
+		Database._execute(db: db, query)
+		return Database._table(db: db, named: table.name)!
 	}
 	
 	public func add(column: Table.Column, to table: inout Table) {
 		sync { (db) in
-			let query = table.query(for: .addColumn(column))
-			_execute(db: db, query)
-			table = self._table(db: db, named: table.name)!
+			table = _add(db: db, column: column, to: table)
 		}
 	}
 	
 	public func add(column: Table.Column, to table: Table, _ handler: @escaping (Table) -> Void) {
 		async { (db) in
-			let query = table.query(for: .addColumn(column))
-			self._execute(db: db, query)
-			handler(self._table(db: db, named: table.name)!)
+			handler(self._add(db: db, column: column, to: table))
 		}
 	}
 	

@@ -42,8 +42,10 @@ public class Connection {
 			print("Directory doesn't exist")
 			do {
 				try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: false)
-			} catch {
-				fatalError(String(reflecting: error))
+			} catch let error as NSError {
+				guard error.code == 516 else {
+					fatalError(String(reflecting: error))
+				}
 			}
 		} else {
 			print("Directory exists")

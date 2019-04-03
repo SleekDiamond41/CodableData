@@ -26,6 +26,8 @@
 		4C4AD9A32251718000EC174A /* Database+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9A22251718000EC174A /* Database+Table.swift */; };
 		4C4AD9A52253E0AA00EC174A /* WhereClause.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9A42253E0AA00EC174A /* WhereClause.swift */; };
 		4C4AD9A72253F0B400EC174A /* BetterFilterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9A62253F0B400EC174A /* BetterFilterable.swift */; };
+		4C4AD9AA22540ED300EC174A /* Writer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9A922540ED300EC174A /* Writer.swift */; };
+		4C4AD9AC2254851F00EC174A /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9AB2254851F00EC174A /* DataModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +64,8 @@
 		4C4AD9A42253E0AA00EC174A /* WhereClause.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhereClause.swift; sourceTree = "<group>"; };
 		4C4AD9A62253F0B400EC174A /* BetterFilterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetterFilterable.swift; sourceTree = "<group>"; };
 		4C4AD9A822540B0F00EC174A /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		4C4AD9A922540ED300EC174A /* Writer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
+		4C4AD9AB2254851F00EC174A /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,15 +109,17 @@
 			isa = PBXGroup;
 			children = (
 				4C4AD9A822540B0F00EC174A /* MyPlayground.playground */,
+				4C4AD9AB2254851F00EC174A /* DataModel.swift */,
 				4C4AD9A62253F0B400EC174A /* BetterFilterable.swift */,
 				4C4AD990225056C400EC174A /* Bindable.swift */,
 				4C4AD998225129D100EC174A /* Unbindable.swift */,
-				4C4AD99A2251380500EC174A /* Reader.swift */,
 				4C4AD98A22502CA100EC174A /* Connection.swift */,
 				4C4AD98E2250445600EC174A /* Database.swift */,
 				4C4AD99E22516E9A00EC174A /* Database+Read.swift */,
 				4C4AD9A0225170DE00EC174A /* Database+Replace.swift */,
 				4C4AD9A22251718000EC174A /* Database+Table.swift */,
+				4C4AD99A2251380500EC174A /* Reader.swift */,
+				4C4AD9A922540ED300EC174A /* Writer.swift */,
 				4C4AD99222505AFB00EC174A /* ColumnType.swift */,
 				4C4AD99422505B5500EC174A /* Table.swift */,
 				4C4AD9872250292D00EC174A /* Statement.swift */,
@@ -255,8 +261,10 @@
 				4C4AD9A32251718000EC174A /* Database+Table.swift in Sources */,
 				4C4AD98F2250445600EC174A /* Database.swift in Sources */,
 				4C4AD99F22516E9A00EC174A /* Database+Read.swift in Sources */,
+				4C4AD9AC2254851F00EC174A /* DataModel.swift in Sources */,
 				4C4AD99322505AFB00EC174A /* ColumnType.swift in Sources */,
 				4C4AD999225129D100EC174A /* Unbindable.swift in Sources */,
+				4C4AD9AA22540ED300EC174A /* Writer.swift in Sources */,
 				4C4AD9A1225170DE00EC174A /* Database+Replace.swift in Sources */,
 				4C4AD99522505B5500EC174A /* Table.swift in Sources */,
 				4C4AD98D22503E8B00EC174A /* Status.swift in Sources */,

@@ -9,7 +9,7 @@
 import Foundation
 
 
-enum ClauseJoinRule {
+public enum ClauseJoinRule {
 	case and
 	case or
 }

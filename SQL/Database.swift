@@ -41,7 +41,7 @@ public class Database {
 		}
 	}
 	
-	func _execute(db: OpaquePointer, _ query: String) {
+	static func _execute(db: OpaquePointer, _ query: String) {
 		do {
 			var s = Statement(query)
 			try s.prepare(in: db)
@@ -56,13 +56,13 @@ public class Database {
 	
 	public func execute(_ query: String) {
 		sync { db in
-			_execute(db: db, query)
+			Database._execute(db: db, query)
 		}
 	}
 	
 	public func execute(_ query: String, _ handler: @escaping () -> Void) {
 		async { db in
-			self._execute(db: db, query)
+			Database._execute(db: db, query)
 			handler()
 		}
 	}

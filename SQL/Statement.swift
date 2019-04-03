@@ -23,7 +23,8 @@ extension Statement {
 	public mutating func prepare(in db: OpaquePointer) throws {
 		let status = Status(sqlite3_prepare(db, query, -1, &p, nil))
 		guard status == .ok else {
-			fatalError()
+			let mess = String(cString: sqlite3_errmsg(db))
+			fatalError(String(reflecting: mess))
 		}
 	}
 	public mutating func reset() {

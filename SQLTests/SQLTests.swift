@@ -9,6 +9,14 @@
 import XCTest
 @testable import SQL
 
+struct Friend: Codable {
+	let id: Int
+	let name: String
+	let hair: String
+	let person_id: Int
+}
+
+
 class SQLTests: XCTestCase {
 	
 	var dir: URL {
@@ -28,17 +36,17 @@ class SQLTests: XCTestCase {
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
 	}
 	
-	func testExample() {
+	func testCreateTable() {
 		
 		let table = Table(name: "person", columns: [
-			Table.Column(name: "id", type: .integer),
+			Table.Column(name: "id", type: .integer, isPrimaryKey: true),
 			Table.Column(name: "name", type: .text)
 		])
 		
 		let e = XCTestExpectation(description: "com.expectation")
 		
 		db.create(table) {
-			self.db.replace(into: table.name, [("id", 1), ("name", "Michael")]) {
+			self.db.replace(Person(id: 1, name: "Michael")) {
 				e.fulfill()
 			}
 		}
@@ -135,4 +143,54 @@ class SQLTests: XCTestCase {
 //		wait(for: [e], timeout: 1.0)
 	}
 	
+	func testReplace() {
+		
+		let person = Person(id: 1, name: "Billy Bob", nickName: "Billy")
+		db.replace(person)
+		
+		let people = db.read(Person.self)
+		
+		XCTAssertEqual(people.count, 1)
+		XCTAssertEqual(people.first, person)
+	}
+	
+	func testEverything() {
+		let pete = Friend(id: 1, name: "Joe Bob", hair: "Blue", person_id: 1)
+		db.replace(pete)
+		
+		let results = db.read(Friend.self)
+		XCTAssertEqual(results.count, 1)
+	}
+	
+	
+	
+	
+	func testExample() {
+		let game = Game(id: 2, name: "Onitama", playerCount: 2, difficulty: 6, startLevel: 4)
+		
+		db.replace(game)
+		
+		let results = db.read(Game.self)
+		
+		XCTAssertEqual(results.first, game)
+		
+	}
+	
+}
+
+
+struct Game: Codable, Equatable {
+	let id: Int
+	let name: String
+	let playerCount: Int
+	let difficulty: Int
+	let startLevel: Int
+	
+	enum CodingKeys: String, CodingKey {
+		case id
+		case name
+		case playerCount = "player_count"
+		case difficulty
+		case startLevel = "start_level"
+	}
 }
