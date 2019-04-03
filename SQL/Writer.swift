@@ -9,7 +9,7 @@
 import Foundation
 
 extension Table.Column {
-	init(name: String, type: Value) {
+	init(name: String, type: SQLValue) {
 		switch type {
 		case .text:
 			self.type = .text

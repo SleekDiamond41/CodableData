@@ -23,7 +23,7 @@ public struct Table {
 			assert(!col.isPrimaryKey, "Shouldn't be adding a new column as the Primary Key")
 			return "ALTER TABLE \(name) ADD COLUMN \(col.query);"
 		case .drop:
-			return "DROP TABLE \(name);"
+			return "DROP TABLE IF EXISTS \(name);"
 		}
 	}
 	
@@ -38,7 +38,13 @@ public struct Table {
 		let type: ColumnType
 		let isPrimaryKey: Bool
 		
-		init(name: String, type: ColumnType, isPrimaryKey: Bool = false) {
+		init(name: String, type: ColumnType) {
+			self.name = name
+			self.type = type
+			self.isPrimaryKey = name == "id"
+		}
+		
+		init(name: String, type: ColumnType, isPrimaryKey: Bool) {
 			self.name = name
 			self.type = type
 			self.isPrimaryKey = isPrimaryKey

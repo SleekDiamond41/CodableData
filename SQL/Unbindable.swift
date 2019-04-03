@@ -26,7 +26,9 @@ extension Optional: Unbindable where Wrapped: Unbindable {
 
 extension UUID: Unbindable {
 	static func unbind(from s: Statement, at index: Int32) throws -> UUID {
-		return UUID(uuidString: try String.unbind(from: s, at: index))!
+		let str = try String.unbind(from: s, at: index)
+		let id = UUID(uuidString: str)
+		return id!
 	}
 }
 

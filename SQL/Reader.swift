@@ -17,7 +17,7 @@ extension Encodable {
 	static var tableName: String { return "\(Self.self)".lowercased() }
 }
 
-public struct Person: Codable, Equatable, DataModel {
+public struct Person: SQLModel, Equatable {
 	public let id: UUID
 	public let name: String
 	public let nickName: String?
@@ -131,7 +131,7 @@ class _Reader: Decoder {
 		}
 		
 		func decodeNil(forKey key: Key) throws -> Bool {
-			guard let i = index(for: key) else {
+			guard index(for: key) != nil else {
 				return true
 			}
 //			ColumnType(String(cString: sqlite3_column_decltype(s.p, i)))

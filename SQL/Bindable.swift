@@ -8,7 +8,7 @@
 
 import SQLite3
 
-public enum Value {
+public enum SQLValue {
 	case text(String)
 	case integer(Int64)
 	case double(Double)
@@ -50,11 +50,11 @@ public enum Value {
 
 
 public protocol Bindable {
-	var bindingValue: Value { get }
+	var bindingValue: SQLValue { get }
 }
 
 extension Optional: Bindable where Wrapped: Bindable {
-	public var bindingValue: Value {
+	public var bindingValue: SQLValue {
 		switch self {
 		case .none:
 			return .null
@@ -65,67 +65,67 @@ extension Optional: Bindable where Wrapped: Bindable {
 }
 
 extension UUID: Bindable {
-	public var bindingValue: Value {
+	public var bindingValue: SQLValue {
 		return uuidString.bindingValue
 	}
 }
 
 extension String: Bindable {
-	public var bindingValue: Value {
+	public var bindingValue: SQLValue {
 		return .text(self)
 	}
 }
 
 extension Int64: Bindable {
-	public var bindingValue: Value {
+	public var bindingValue: SQLValue {
 		return .integer(self)
 	}
 }
 
 extension Int: Bindable {
-	public var bindingValue: Value {
+	public var bindingValue: SQLValue {
 		return Int64(self).bindingValue
 	}
 }
 
 extension Int32: Bindable {
-	public var bindingValue: Value {
+	public var bindingValue: SQLValue {
 		return Int64(self).bindingValue
 	}
 }
 
 extension Int16: Bindable {
-	public var bindingValue: Value {
+	public var bindingValue: SQLValue {
 		return Int64(self).bindingValue
 	}
 }
 
 extension Int8: Bindable {
-	public var bindingValue: Value {
+	public var bindingValue: SQLValue {
 		return Int64(self).bindingValue
 	}
 }
 
 extension Double: Bindable {
-	public var bindingValue: Value {
+	public var bindingValue: SQLValue {
 		return .double(self)
 	}
 }
 
 extension Float: Bindable {
-	public var bindingValue: Value {
+	public var bindingValue: SQLValue {
 		return Double(self).bindingValue
 	}
 }
 
 extension Data: Bindable {
-	public var bindingValue: Value {
+	public var bindingValue: SQLValue {
 		return .blob(self)
 	}
 }
 
 extension Bool: Bindable {
-	public var bindingValue: Value {
+	public var bindingValue: SQLValue {
 		return .integer(self ? 1 : 0)
 	}
 }

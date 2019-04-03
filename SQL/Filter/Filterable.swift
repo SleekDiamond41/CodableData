@@ -9,13 +9,13 @@
 import Foundation
 
 
-public protocol BetterFilterable {
+public protocol Filterable {
 	associatedtype FilterKey: CodingKey
 	
 	static func key<T: Bindable>(for path: KeyPath<Self, T>) -> FilterKey
 }
 
-extension Person: BetterFilterable {
+extension Person {
 	public typealias FilterKey = Person.CodingKeys
 	
 	public static func key<T: Bindable>(for path: KeyPath<Person, T>) -> Person.CodingKeys {
