@@ -103,25 +103,19 @@ extension Database {
 	
 	public func get<U: Decodable & Loadable>(_ : U.Type, limit: Int, page: Int = 1) -> [U] {
 		return sync { db in
-			return sync { db in
-				return _read(db: db, U.self, limit: limit, page: page)
-			}
+			return _read(db: db, U.self, limit: limit, page: page)
 		}
 	}
 	
-	public func get<U: Decodable & Loadable>(_ : U.Type, where filter: Filter<U>) -> [U] {
+	public func get<U: Decodable & Loadable>(where filter: Filter<U>) -> [U] {
 		return sync { db in
-			return sync { db in
-				return _read(db: db, U.self, filter: filter)
-			}
+			return _read(db: db, U.self, filter: filter)
 		}
 	}
 	
-	public func get<U: Decodable & Loadable>(_ : U.Type, where filter: Filter<U>, limit: Int, page: Int = 1) -> [U] {
+	public func get<U: Decodable & Loadable>(where filter: Filter<U>, limit: Int, page: Int = 1) -> [U] {
 		return sync { db in
-			return sync { db in
-				return _read(db: db, U.self, filter: filter, limit: limit, page: page)
-			}
+			return _read(db: db, U.self, filter: filter, limit: limit, page: page)
 		}
 	}
 	
@@ -142,13 +136,13 @@ extension Database {
 		}
 	}
 	
-	public func get<U: Decodable & Loadable>(_ : U.Type, where filter: Filter<U>, _ handler: @escaping ([U]) -> Void) {
+	public func get<U: Decodable & Loadable>(where filter: Filter<U>, _ handler: @escaping ([U]) -> Void) {
 		async { (db) in
 			handler(self._read(db: db, U.self, filter: filter))
 		}
 	}
 	
-	public func get<U: Decodable & Loadable>(_ : U.Type, where filter: Filter<U>, limit: Int, page: Int = 1, _ handler: @escaping ([U]) -> Void) {
+	public func get<U: Decodable & Loadable>(where filter: Filter<U>, limit: Int, page: Int = 1, _ handler: @escaping ([U]) -> Void) {
 		async { (db) in
 			handler(self._read(db: db, U.self, filter: filter, limit: limit, page: page))
 		}

@@ -175,6 +175,14 @@ class SQLTests: XCTestCase {
 		
 		let results = db.get(Game.self)
 		
+		let filter = Game.filter(\.difficulty, is: .less(than: 8))
+			.and(\.playerCount, is: .equal(to: 2))
+		
+		let onitama = db.get(where: filter)
+		XCTAssertEqual(onitama.count, 1)
+		print(onitama.first!)
+		
+		
 		XCTAssertEqual(results.count, 1)
 		XCTAssertEqual(results.first, game)
 		
@@ -183,7 +191,21 @@ class SQLTests: XCTestCase {
 }
 
 
-struct Game: DataModel, Codable, Equatable {
+struct Game: DataModel, Codable, Equatable, BetterFilterable {
+	static func key<T>(for path: KeyPath<Game, T>) -> Game.CodingKeys where T : Bindable {
+		switch path {
+		case \Game.id: return .id
+		case \Game.name: return .name
+		case \Game.playerCount: return .playerCount
+		case \Game.difficulty: return .difficulty
+		case \Game.startLevel: return .startLevel
+		default:
+			fatalError("Unknown KeyPath")
+		}
+	}
+	
+	typealias FilterKey = CodingKeys
+	
 	let id: UUID
 	let name: String
 	let playerCount: Int

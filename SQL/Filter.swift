@@ -18,11 +18,11 @@ public struct Filter<Element: BetterFilterable> {
 		self.bindings = bindings
 	}
 	
-	init<T: Bindable & Equatable>(_ path: KeyPath<Element, T>, is rule: EquatableOperand<T>) {
+	init<T: Bindable & Equatable>(_ path: KeyPath<Element, T>, is rule: Equality<T>) {
 		let (str, val) = rule.values
 		
 		self.query = "WHERE \(Element.key(for: path).stringValue) \(str)"
-		self.bindings = [val]
+		self.bindings = val
 	}
 	
 	init<T: Bindable & Comparable>(_ path: KeyPath<Element, T>, is rule: ComparableOperand<T>) {
@@ -32,15 +32,15 @@ public struct Filter<Element: BetterFilterable> {
 		self.bindings = vals
 	}
 	
-	public func and<T: Equatable & Bindable>(_ path: KeyPath<Element, T>, is operand: EquatableOperand<T>) -> Filter {
+	public func and<T: Equatable & Bindable>(_ path: KeyPath<Element, T>, is operand: Equality<T>) -> Filter {
 		let (str, val) = operand.values
 		
-		return Filter(query: query + " AND \(Element.key(for: path).stringValue) \(str)", bindings: bindings + [val])
+		return Filter(query: query + " AND \(Element.key(for: path).stringValue) \(str)", bindings: bindings + val)
 	}
 	
-	public func or<T: Equatable & Bindable>(_ path: KeyPath<Element, T>, is operand: EquatableOperand<T>) -> Filter {
+	public func or<T: Equatable & Bindable>(_ path: KeyPath<Element, T>, is operand: Equality<T>) -> Filter {
 		let (str, val) = operand.values
-		return Filter(query: query + " OR \(Element.key(for: path).stringValue) \(str)", bindings: bindings + [val])
+		return Filter(query: query + " OR \(Element.key(for: path).stringValue) \(str)", bindings: bindings + val)
 	}
 	
 	public func and<T: Bindable & Comparable>(_ path: KeyPath<Element, T>, is operand: ComparableOperand<T>) -> Filter {
@@ -68,20 +68,6 @@ public struct Filter<Element: BetterFilterable> {
 		case isNot
 	}
 	
-	public enum EquatableOperand<T: Equatable> {
-		case equal(to: T)
-		case notEqual(to: T)
-		
-		fileprivate var values: (String, T) {
-			switch self {
-			case .equal(to: let val):
-				return ("IS ?", val)
-			case .notEqual(to: let val):
-				return ("IS NOT ?", val)
-			}
-		}
-	}
-	
 	public enum ComparableOperand<T: Comparable> {
 		case greater(than: T)
 		case less(than: T)
@@ -105,6 +91,28 @@ public struct Filter<Element: BetterFilterable> {
 	}
 }
 
+public enum Equality<T: Equatable> {
+	case equal(to: T)
+	case notEqual(to: T)
+	
+	fileprivate var values: (String, [T]) {
+		switch self {
+		case .equal(to: let val):
+			return ("IS ?", [val])
+		case .notEqual(to: let val):
+			return ("IS NOT ?", [val])
+		}
+	}
+}
+
+protocol EqualityOperand {
+	func query(for operation: Equality) -> String
+}
+
+extension Int: EqualityOperand {
+	
+}
+
 extension BetterFilterable {
 	
 	public static func filter<T: Bindable & Comparable>(_ path: KeyPath<Self, T>, is rule: Filter<Self>.EquatableOperand<T>) -> Filter<Self> {
@@ -117,10 +125,52 @@ extension BetterFilterable {
 	
 }
 
+struct Quick: Codable, DataModel {
+	let id: UUID
+	
+	enum CodingKeys: String, CodingKey {
+		case id
+	}
+}
+
+extension Quick: BetterFilterable {
+	typealias FilterKey = CodingKeys
+	
+	static func key<T>(for path: KeyPath<Quick, T>) -> Quick.FilterKey where T : Bindable {
+		switch path {
+		case \Quick.id:
+			return .id
+		default:
+			fatalError()
+		}
+	}
+}
 
 func test() {
-	let filter = Person.filter(\.name, is: .notEqual(to: "Michael"))
+	
+	let ids = (UUID(), UUID(), UUID())
+	
+	let a = Filter<Person>(\.id, is: .equal(to: ids.0))
+		.or(\.id, is: .equal(to: ids.1))
+		.or(\.id, is: .equal(to: ids.2))
+	// WHERE id LIKE ? OR id LIKE ? OR id LIKE ?
+	
+	let b = Filter(\Person.nickName, is: .equal(to: nil))
+	
+	
+	
+	let filter = Filter(\Person.name, is: .notEqual(to: "Michael"))
 		.or(\.id, is: .notEqual(to: UUID()))
 		.or(\.name, is: .notEqual(to: "Arrington"))
 		.or(\.id, is: .notEqual(to: UUID()))
+}
+
+
+class MyClass: Equatable {
+	static func == (left: MyClass, right: MyClass) -> Bool {
+		return left.id == right.id
+	}
+	
+	let id = UUID()
+	var name: String = ""
 }
