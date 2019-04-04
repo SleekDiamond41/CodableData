@@ -33,6 +33,8 @@
 		4C4AD9B822552DCD00EC174A /* TableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9B722552DCD00EC174A /* TableTests.swift */; };
 		4C4AD9BD2255386600EC174A /* Database+Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9BC2255386600EC174A /* Database+Column.swift */; };
 		4C4AD9BF2255400000EC174A /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9BE2255400000EC174A /* Configuration.swift */; };
+		4C4AD9C12255811900EC174A /* SortRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9C02255811900EC174A /* SortRule.swift */; };
+		4C4AD9C3225584A600EC174A /* Limit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9C2225584A600EC174A /* Limit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +78,8 @@
 		4C4AD9B722552DCD00EC174A /* TableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableTests.swift; sourceTree = "<group>"; };
 		4C4AD9BC2255386600EC174A /* Database+Column.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Database+Column.swift"; sourceTree = "<group>"; };
 		4C4AD9BE2255400000EC174A /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		4C4AD9C02255811900EC174A /* SortRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortRule.swift; sourceTree = "<group>"; };
+		4C4AD9C2225584A600EC174A /* Limit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Limit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,7 +127,6 @@
 				4C4AD9AB2254851F00EC174A /* SQLModel.swift */,
 				4C4AD990225056C400EC174A /* Bindable.swift */,
 				4C4AD998225129D100EC174A /* Unbindable.swift */,
-				4C4AD98A22502CA100EC174A /* Connection.swift */,
 				4C4AD9BA2255355000EC174A /* Database */,
 				4C4AD99A2251380500EC174A /* Reader.swift */,
 				4C4AD9A922540ED300EC174A /* Writer.swift */,
@@ -152,6 +155,8 @@
 			children = (
 				4C4AD9A62253F0B400EC174A /* Filterable.swift */,
 				4C4AD9A42253E0AA00EC174A /* Filter.swift */,
+				4C4AD9C2225584A600EC174A /* Limit.swift */,
+				4C4AD9C02255811900EC174A /* SortRule.swift */,
 				4C4AD9B122550F8F00EC174A /* Comparison.swift */,
 				4C4AD9AF22550BBF00EC174A /* Equality.swift */,
 				4C4AD9B32255114000EC174A /* StringComparison.swift */,
@@ -163,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				4C4AD9BE2255400000EC174A /* Configuration.swift */,
+				4C4AD98A22502CA100EC174A /* Connection.swift */,
 				4C4AD98E2250445600EC174A /* Database.swift */,
 				4C4AD9B52255291700EC174A /* Database+Count.swift */,
 				4C4AD99E22516E9A00EC174A /* Database+Read.swift */,
@@ -303,7 +309,9 @@
 				4C4AD9BF2255400000EC174A /* Configuration.swift in Sources */,
 				4C4AD9B022550BBF00EC174A /* Equality.swift in Sources */,
 				4C4AD9B42255114000EC174A /* StringComparison.swift in Sources */,
+				4C4AD9C3225584A600EC174A /* Limit.swift in Sources */,
 				4C4AD9AC2254851F00EC174A /* SQLModel.swift in Sources */,
+				4C4AD9C12255811900EC174A /* SortRule.swift in Sources */,
 				4C4AD99322505AFB00EC174A /* ColumnType.swift in Sources */,
 				4C4AD999225129D100EC174A /* Unbindable.swift in Sources */,
 				4C4AD9BD2255386600EC174A /* Database+Column.swift in Sources */,

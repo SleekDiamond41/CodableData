@@ -9,14 +9,6 @@
 import SQLite3
 
 
-extension Decodable {
-	static var tableName: String { return "\(Self.self)".lowercased() }
-}
-
-extension Encodable {
-	static var tableName: String { return "\(Self.self)".lowercased() }
-}
-
 public struct Person: SQLModel, Equatable {
 	public let id: UUID
 	public let name: String

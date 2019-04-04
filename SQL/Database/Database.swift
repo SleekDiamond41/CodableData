@@ -25,14 +25,14 @@ public class Database {
 	}
 	
 	func sync<T>(_ block: (OpaquePointer) -> T) -> T {
-		return conns.0.sync {
-			return block(conns.0.db)
+		return conns.0.sync { (db) in
+			return block(db)
 		}
 	}
 	
 	func async(_ block: @escaping (OpaquePointer) -> Void) {
-		conns.1.async {
-			block(self.conns.1.db)
+		conns.1.async { (db) in
+			block(db)
 		}
 	}
 	
@@ -49,13 +49,13 @@ public class Database {
 		}
 	}
 	
-	public func execute(_ query: String) {
+	func execute(_ query: String) {
 		sync { db in
 			Database._execute(db: db, query)
 		}
 	}
 	
-	public func execute(_ query: String, _ handler: @escaping () -> Void) {
+	func execute(_ query: String, _ handler: @escaping () -> Void) {
 		async { db in
 			Database._execute(db: db, query)
 			handler()

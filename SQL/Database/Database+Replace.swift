@@ -11,7 +11,7 @@ import Foundation
 
 extension Database {
 	
-	private static func _replace<T>(db: OpaquePointer, _ value: T) where T: Encodable {
+	private static func _replace<T>(db: OpaquePointer, _ value: T) where T: Encodable & UUIDModel {
 		let writer = Writer<T>()
 		
 		do {
@@ -44,7 +44,7 @@ extension Database {
 //MARK: - Sync
 extension Database {
 	
-	public func save<T>(_ value: T) where T: Encodable {
+	public func save<T>(_ value: T) where T: Encodable & UUIDModel {
 		sync { db in
 			Database._replace(db: db, value)
 		}
@@ -56,7 +56,7 @@ extension Database {
 //MARK: - Async
 extension Database {
 	
-	public func save<T>(_ value: T, _ handler: @escaping () -> Void) where T: Encodable {
+	public func save<T>(_ value: T, _ handler: @escaping () -> Void) where T: Encodable & UUIDModel {
 		async { db in
 			Database._replace(db: db, value)
 			handler()

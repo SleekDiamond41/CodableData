@@ -10,12 +10,9 @@ import Foundation
 import SQLite3
 
 
-public class Connection {
+class Connection {
 	
-	public let id: UUID
-	
-	let db: OpaquePointer
-	
+	private let db: OpaquePointer
 	private let queue: DispatchQueue
 	
 	
@@ -28,12 +25,11 @@ public class Connection {
 	
 	
 	private init(_ db: OpaquePointer, queue: DispatchQueue) {
-		self.id = UUID()
 		self.db = db
 		self.queue = queue
 	}
 	
-	public convenience init(dir: URL, name: String, queue: DispatchQueue) {
+	convenience init(dir: URL, name: String, queue: DispatchQueue) {
 		
 		let url = dir.appendingPathComponent(name).appendingPathExtension("sqlite3")//.removingPercentEncoding!
 		print("Opening connection to SQL database to:", url.path)
@@ -66,15 +62,15 @@ public class Connection {
 		self.init(dir: configuration.directory, name: configuration.filename, queue: queue)
 	}
 	
-	public func sync<T>(_ block: () -> T) -> T {
+	func sync<T>(_ block: (OpaquePointer) -> T) -> T {
 		return queue.sync {
-			return block()
+			return block(db)
 		}
 	}
 	
-	public func async(_ block: @escaping () -> Void) {
+	func async(_ block: @escaping (OpaquePointer) -> Void) {
 		queue.async {
-			block()
+			block(self.db)
 		}
 	}
 	

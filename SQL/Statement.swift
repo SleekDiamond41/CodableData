@@ -9,34 +9,34 @@
 import Foundation
 import  SQLite3
 
-public struct Statement {
-	public let query: String
+struct Statement {
+	let query: String
 	private(set) var p: OpaquePointer?
 	
-	public init(_ query: String) {
+	init(_ query: String) {
 		self.query = query
 	}
 }
 
 extension Statement {
 	
-	public mutating func prepare(in db: OpaquePointer) throws {
+	mutating func prepare(in db: OpaquePointer) throws {
 		let status = Status(sqlite3_prepare(db, query, -1, &p, nil))
 		guard status == .ok else {
 			let mess = String(cString: sqlite3_errmsg(db))
 			fatalError(String(reflecting: mess))
 		}
 	}
-	public mutating func reset() {
+	mutating func reset() {
 		finalize()
 	}
-	public func finalize() {
+	func finalize() {
 		guard let p = p else { return }
 		sqlite3_finalize(p)
 	}
 	
 	@discardableResult
-	public func step() throws -> Status {
+	func step() throws -> Status {
 		assert(p != nil)
 		print("Stepping query:\n", query, "\n")
 		return Status(sqlite3_step(p))

@@ -27,7 +27,7 @@ extension Table.Column {
 	}
 }
 
-class Writer<T: Encodable> {
+class Writer<T: Encodable & UUIDModel> {
 	
 	private let writer = _Writer()
 	

@@ -11,8 +11,8 @@ import SQLite3
 
 
 struct Table {
-	public let name: String
-	public let columns: [Column]
+	let name: String
+	let columns: [Column]
 	
 	func query(for action: Action) -> String {
 		switch action {
@@ -33,7 +33,7 @@ struct Table {
 		case drop
 	}
 	
-	public struct Column {
+	struct Column {
 		let name: String
 		let type: ColumnType
 		let isPrimaryKey: Bool
@@ -51,7 +51,7 @@ struct Table {
 		}
 		
 		fileprivate var query: String {
-			return name + " " + type.rawValue + (isPrimaryKey ? " PRIMARY KEY" : "")
+			return name + " " + type.rawValue + (isPrimaryKey ? " PRIMARY KEY NOT NULL" : "")
 		}
 	}
 }
