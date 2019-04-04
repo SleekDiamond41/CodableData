@@ -8,8 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4C4AD9752250238000EC174A /* CodableData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4AD96B2250238000EC174A /* CodableData.framework */; };
-		4C4AD97A2250238000EC174A /* SQLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9792250238000EC174A /* SQLTests.swift */; };
-		4C4AD97C2250238000EC174A /* SQL.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C4AD96E2250238000EC174A /* SQL.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4C4AD97C2250238000EC174A /* CodableData.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C4AD96E2250238000EC174A /* CodableData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4C4AD9882250292D00EC174A /* Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9872250292D00EC174A /* Statement.swift */; };
 		4C4AD98B22502CA100EC174A /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD98A22502CA100EC174A /* Connection.swift */; };
 		4C4AD98D22503E8B00EC174A /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD98C22503E8B00EC174A /* Status.swift */; };
@@ -30,11 +29,13 @@
 		4C4AD9B222550F8F00EC174A /* Comparison.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9B122550F8F00EC174A /* Comparison.swift */; };
 		4C4AD9B42255114000EC174A /* StringComparison.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9B32255114000EC174A /* StringComparison.swift */; };
 		4C4AD9B62255291700EC174A /* Database+Count.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9B52255291700EC174A /* Database+Count.swift */; };
-		4C4AD9B822552DCD00EC174A /* TableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9B722552DCD00EC174A /* TableTests.swift */; };
 		4C4AD9BD2255386600EC174A /* Database+Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9BC2255386600EC174A /* Database+Column.swift */; };
 		4C4AD9BF2255400000EC174A /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9BE2255400000EC174A /* Configuration.swift */; };
 		4C4AD9C12255811900EC174A /* SortRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9C02255811900EC174A /* SortRule.swift */; };
 		4C4AD9C3225584A600EC174A /* Limit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9C2225584A600EC174A /* Limit.swift */; };
+		4C4AD9F4225593B600EC174A /* TableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9F1225593B600EC174A /* TableTests.swift */; };
+		4C4AD9F5225593B600EC174A /* CodableDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9F2225593B600EC174A /* CodableDataTests.swift */; };
+		4C4AD9F6225593B600EC174A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C4AD9F3225593B600EC174A /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,11 +50,9 @@
 
 /* Begin PBXFileReference section */
 		4C4AD96B2250238000EC174A /* CodableData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CodableData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4C4AD96E2250238000EC174A /* SQL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQL.h; sourceTree = "<group>"; };
+		4C4AD96E2250238000EC174A /* CodableData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CodableData.h; sourceTree = "<group>"; };
 		4C4AD96F2250238000EC174A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C4AD9742250238000EC174A /* CodableDataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CodableDataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4C4AD9792250238000EC174A /* SQLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLTests.swift; sourceTree = "<group>"; };
-		4C4AD97B2250238000EC174A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C4AD9872250292D00EC174A /* Statement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statement.swift; sourceTree = "<group>"; };
 		4C4AD98A22502CA100EC174A /* Connection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
 		4C4AD98C22503E8B00EC174A /* Status.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
@@ -75,11 +74,13 @@
 		4C4AD9B122550F8F00EC174A /* Comparison.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comparison.swift; sourceTree = "<group>"; };
 		4C4AD9B32255114000EC174A /* StringComparison.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringComparison.swift; sourceTree = "<group>"; };
 		4C4AD9B52255291700EC174A /* Database+Count.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Database+Count.swift"; sourceTree = "<group>"; };
-		4C4AD9B722552DCD00EC174A /* TableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableTests.swift; sourceTree = "<group>"; };
 		4C4AD9BC2255386600EC174A /* Database+Column.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Database+Column.swift"; sourceTree = "<group>"; };
 		4C4AD9BE2255400000EC174A /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		4C4AD9C02255811900EC174A /* SortRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortRule.swift; sourceTree = "<group>"; };
 		4C4AD9C2225584A600EC174A /* Limit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Limit.swift; sourceTree = "<group>"; };
+		4C4AD9F1225593B600EC174A /* TableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableTests.swift; sourceTree = "<group>"; };
+		4C4AD9F2225593B600EC174A /* CodableDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodableDataTests.swift; sourceTree = "<group>"; };
+		4C4AD9F3225593B600EC174A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,7 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				4C4AD96D2250238000EC174A /* CodableData */,
-				4C4AD9782250238000EC174A /* SQLTests */,
+				4C4AD9F0225593B600EC174A /* CodableDataTests */,
 				4C4AD96C2250238000EC174A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -134,20 +135,10 @@
 				4C4AD99422505B5500EC174A /* Table.swift */,
 				4C4AD9872250292D00EC174A /* Statement.swift */,
 				4C4AD9B92255354000EC174A /* Filter */,
-				4C4AD96E2250238000EC174A /* SQL.h */,
+				4C4AD96E2250238000EC174A /* CodableData.h */,
 				4C4AD96F2250238000EC174A /* Info.plist */,
 			);
 			path = CodableData;
-			sourceTree = "<group>";
-		};
-		4C4AD9782250238000EC174A /* SQLTests */ = {
-			isa = PBXGroup;
-			children = (
-				4C4AD9792250238000EC174A /* SQLTests.swift */,
-				4C4AD9B722552DCD00EC174A /* TableTests.swift */,
-				4C4AD97B2250238000EC174A /* Info.plist */,
-			);
-			path = SQLTests;
 			sourceTree = "<group>";
 		};
 		4C4AD9B92255354000EC174A /* Filter */ = {
@@ -187,6 +178,16 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
+		4C4AD9F0225593B600EC174A /* CodableDataTests */ = {
+			isa = PBXGroup;
+			children = (
+				4C4AD9F2225593B600EC174A /* CodableDataTests.swift */,
+				4C4AD9F1225593B600EC174A /* TableTests.swift */,
+				4C4AD9F3225593B600EC174A /* Info.plist */,
+			);
+			path = CodableDataTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -194,7 +195,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C4AD97C2250238000EC174A /* SQL.h in Headers */,
+				4C4AD97C2250238000EC174A /* CodableData.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +280,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C4AD9F6225593B600EC174A /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,6 +298,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C4AD9F5225593B600EC174A /* CodableDataTests.swift in Sources */,
 				4C4AD9A72253F0B400EC174A /* Filterable.swift in Sources */,
 				4C4AD9A52253E0AA00EC174A /* Filter.swift in Sources */,
 				4C4AD98B22502CA100EC174A /* Connection.swift in Sources */,
@@ -304,6 +307,7 @@
 				4C4AD9B222550F8F00EC174A /* Comparison.swift in Sources */,
 				4C4AD99B2251380500EC174A /* Reader.swift in Sources */,
 				4C4AD9A32251718000EC174A /* Database+Table.swift in Sources */,
+				4C4AD9F4225593B600EC174A /* TableTests.swift in Sources */,
 				4C4AD98F2250445600EC174A /* Database.swift in Sources */,
 				4C4AD99F22516E9A00EC174A /* Database+Read.swift in Sources */,
 				4C4AD9BF2255400000EC174A /* Configuration.swift in Sources */,
@@ -327,8 +331,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C4AD9B822552DCD00EC174A /* TableTests.swift in Sources */,
-				4C4AD97A2250238000EC174A /* SQLTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
