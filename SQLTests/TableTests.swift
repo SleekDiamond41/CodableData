@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import SQL
+@testable import CodableData
 
 class TableTests: SQLTests {
 	

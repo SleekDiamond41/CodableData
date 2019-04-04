@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import SQL
+@testable import CodableData
 
 struct Friend: SQLModel {
 	let id: UUID

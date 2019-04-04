@@ -6,7 +6,9 @@
 //  Copyright © 2019 Duct Ape Productions. All rights reserved.
 //
 
+import Foundation
 import SQLite3
+
 
 public enum SQLValue {
 	case text(String)
