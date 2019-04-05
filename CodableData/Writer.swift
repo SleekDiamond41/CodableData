@@ -27,7 +27,7 @@ extension Table.Column {
 	}
 }
 
-class Writer<T: Encodable & UUIDModel> {
+class Writer<T: SQLModel & Encodable> {
 	
 	private let writer = _Writer()
 	
@@ -38,26 +38,22 @@ class Writer<T: Encodable & UUIDModel> {
 	
 	func tableDefinition() -> Table {
 		return Table(name: T.tableName, columns:
-			writer.container!.values.map {
+			writer.values.map {
 				Table.Column(name: $0.0, type: $0.1.bindingValue)
 			}
 		)
 	}
 	
-	func replace<T>(_ value: T, into table: inout Table, db: OpaquePointer, newColumnsHandler: ([Table.Column]) -> Void) throws where T: Encodable {
+	func replace(_ value: T, into table: inout Table, db: OpaquePointer, newColumnsHandler: ([Table.Column]) -> Void) throws {
 		
-		guard let container = writer.container else {
-			fatalError()
-		}
-		
-		newColumnsHandler(container.values.filter { (val) in
+		newColumnsHandler(writer.values.filter { (val) in
 			return !table.columns.contains(where: { $0.name == val.0 })
 			}.map {
 				Table.Column(name: $0.0, type: $0.1.bindingValue)
 			})
 		
-		let keys = container.values.map { $0.0 }.joined(separator: ", ")
-		let values = [String](repeating: "?", count: container.values.count).joined(separator: ", ")
+		let keys = writer.values.map { $0.0 }.joined(separator: ", ")
+		let values = [String](repeating: "?", count: writer.values.count).joined(separator: ", ")
 		
 		var s = Statement("REPLACE INTO \(table.name) (\(keys)) VALUES (\(values))")
 		
@@ -66,7 +62,7 @@ class Writer<T: Encodable & UUIDModel> {
 			s.finalize()
 		}
 		var i: Int32 = 1
-		for (_ , value) in container.values {
+		for (_ , value) in writer.values {
 			try value.bindingValue.bind(into: s, at: i)
 			i += 1
 		}
@@ -82,7 +78,7 @@ fileprivate protocol _WriterContainer {
 	var values: [(String, Bindable)] { get }
 }
 
-class _Writer: Encoder {
+fileprivate class _Writer: Encoder {
 	var codingPath: [CodingKey] {
 		return []
 	}
@@ -91,13 +87,12 @@ class _Writer: Encoder {
 		return [:]
 	}
 	
-	fileprivate var container: _WriterContainer?
+	var values = [(String, Bindable)]()
+	var currentKey: String?
 	
 	
 	func container<Key>(keyedBy type: Key.Type) -> KeyedEncodingContainer<Key> where Key : CodingKey {
-		let c = KeyedContainer<Key>()
-		self.container = c
-		return KeyedEncodingContainer(c)
+		return KeyedEncodingContainer(KeyedContainer<Key>(self))
 	}
 	
 	func unkeyedContainer() -> UnkeyedEncodingContainer {
@@ -108,17 +103,17 @@ class _Writer: Encoder {
 		fatalError()
 	}
 	
-	class KeyedContainer<Key>: KeyedEncodingContainerProtocol, _WriterContainer where Key: CodingKey {
-		
+	class KeyedContainer<Key>: KeyedEncodingContainerProtocol where Key: CodingKey {
 		
 		var codingPath: [CodingKey] {
 			return []
 		}
 		
-		private(set) var values = [(String, Bindable)]()
-		private var indices = [String: Int32]()
+		let encoder: _Writer
 		
-		private let jsonEncoder = JSONEncoder()
+		init(_ encoder: _Writer) {
+			self.encoder = encoder
+		}
 		
 		
 //		private func index(for key: Key) -> Int32 {
@@ -160,11 +155,16 @@ class _Writer: Encoder {
 		func encode<T>(_ value: T, forKey key: Key) throws where T : Encodable {
 //			let i = index(for: key)
 			
+			print("Encoding '\(value)' of type '\(T.self)' for '\(key.stringValue)'")
+			print(String(describing: value))
+			print(String(reflecting: value))
+			
 			if let bindable = value as? Bindable {
-				values.append((key.stringValue, bindable))
+				encoder.values.append((key.stringValue, bindable))
 			} else {
-				let data = try jsonEncoder.encode(value)
-				values.append((key.stringValue, data))
+				assert(encoder.currentKey == nil)
+				encoder.currentKey = key.stringValue
+				try value.encode(to: encoder)
 			}
 		}
 		
@@ -184,6 +184,39 @@ class _Writer: Encoder {
 			fatalError()
 		}
 		
+	}
+	
+	struct SingleValueContainer: SingleValueEncodingContainer {
+		
+		var codingPath: [CodingKey] = []
+		
+		let encoder: _Writer
+		
+		init(_ encoder: _Writer) {
+			self.encoder = encoder
+		}
+		
+		mutating func encodeNil() throws {
+			
+		}
+		
+		mutating func encode<T>(_ value: T) throws where T : Encodable {
+			print("Encodable")
+			defer {
+				encoder.currentKey = nil
+			}
+			guard let key = encoder.currentKey else {
+				fatalError()
+			}
+			
+			if let bind = value as? Bindable {
+				encoder.values.append((key, bind))
+			} else {
+				let e = JSONEncoder()
+				let data = try e.encode(value)
+				encoder.values.append((key, data))
+			}
+		}
 	}
 	
 }

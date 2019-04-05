@@ -51,7 +51,7 @@ public enum SQLValue {
 }
 
 
-public protocol Bindable {
+public protocol Bindable: Encodable {
 	var bindingValue: SQLValue { get }
 }
 

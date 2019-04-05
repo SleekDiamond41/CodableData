@@ -9,56 +9,71 @@
 import Foundation
 
 
-public typealias SQLModel = Codable & UUIDModel & Filterable
-
-public protocol UUIDModel {
-	var id: UUID { get }
-	
+public protocol SQLModel {
+	associatedtype PrimaryKey: Bindable & Equatable
+	var id: PrimaryKey { get }
 	static var tableName: String { get }
 }
 
-extension UUIDModel {
+extension SQLModel {
 	public static var tableName: String {
 		return String(reflecting: Self.self).sqlFormatted()
 	}
 }
 
+public protocol UUIDModel: SQLModel where PrimaryKey == UUID {
+	var id: UUID { get }
+}
+
+public protocol RowModel: SQLModel where PrimaryKey == Int64? {
+	var id: Int64? { get }
+}
+
+struct Paper: Codable, UUIDModel {
+	let id: UUID
+}
+
+extension Paper: Filterable {
+	enum CodingKeys: String, CodingKey {
+		case id
+	}
+	typealias FilterKey = CodingKeys
+	static func key<T>(for path: KeyPath<Paper, T>) -> Paper.FilterKey where T : Bindable {
+		switch path {
+		case \Paper.id:
+			return .id
+		default:
+			fatalError("Unknown key path")
+		}
+	}
+}
+
+
+
 extension String {
 	
 	func sqlFormatted() -> String {
 		var result = self
+		print("---- Table Name ----\nBefore:\t\(result)")
 		if result.hasSuffix(".type") {
 			var i = result.endIndex
 			result.formIndex(&i, offsetBy: -5)
 			result.removeSubrange(i...)
 		}
+		print("After: \t\(result)")
+		
+		print("NAME IS '\(result)'")
+		if result.hasPrefix("__lldb_expr_") {
+			print("Clipping '\(result)'")
+			let range = result.range(of: ".")!
+			result.removeSubrange(result.startIndex...range.lowerBound)
+			result = "PlaygroundModel." + result
+			print("Done '\(result)'")
+		}
+		
 		return "[" + result + "]"
 	}
 	
-	func snakeCased() -> String {
-		var result = ""
-		
-		var i = startIndex
-		
-		result += self[i].lowercased()
-		formIndex(after: &i)
-		
-		while i < self.endIndex {
-			let c = self[i]
-			
-			if c.isUppercase {
-				result += "_" + c.lowercased()
-			} else if c == "." {
-				result += "_"
-			} else {
-				result += c.lowercased()
-			}
-			
-			formIndex(after: &i)
-		}
-		
-		return result
-	}
 }
 
 

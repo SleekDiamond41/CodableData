@@ -53,7 +53,7 @@ class Reader {
 	
 	private func read<T: Decodable>(_ : T.Type, from s: Statement, in table: Table) throws -> T {
 		let reader = _Reader(s, table)
-		return try T.init(from: reader)
+		return try T(from: reader)
 	}
 	
 	func read<T: Decodable>(_ : T.Type, s: Statement, _ table: Table) throws -> T {
@@ -62,7 +62,7 @@ class Reader {
 	}
 }
 
-class _Reader: Decoder {
+fileprivate class _Reader: Decoder {
 	var codingPath: [CodingKey] {
 		return []
 	}
@@ -74,13 +74,15 @@ class _Reader: Decoder {
 	let s: Statement
 	let table: Table
 	
+	var currentColumn: Int32?
+	
 	init(_ s: Statement, _ table: Table) {
 		self.s = s
 		self.table = table
 	}
 	
 	func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> where Key : CodingKey {
-		return KeyedDecodingContainer(KeyedContainer(s, table))
+		return KeyedDecodingContainer(KeyedContainer(self))
 	}
 	
 	func unkeyedContainer() throws -> UnkeyedDecodingContainer {
@@ -88,35 +90,27 @@ class _Reader: Decoder {
 	}
 	
 	func singleValueContainer() throws -> SingleValueDecodingContainer {
-		fatalError()
+		return SingleValueContainer(self)
 	}
 	
 	
 	class KeyedContainer<Key: CodingKey>: KeyedDecodingContainerProtocol {
-		var codingPath: [CodingKey] {
-			return []
-		}
 		
-		var allKeys: [Key] {
-			return []
-		}
+		var codingPath: [CodingKey] = []
+		var allKeys: [Key] = []
 		
-		let s: Statement
-		let table: Table
+		let decoder: _Reader
 		
-		lazy var jsonDecoder = JSONDecoder()
-		
-		init(_ s: Statement, _ table: Table) {
-			self.s = s
-			self.table = table
+		init(_ decoder: _Reader) {
+			self.decoder = decoder
 		}
 		
 		func contains(_ key: Key) -> Bool {
 			return index(for: key) != nil
 		}
 		
-		func index(for key: Key) -> Int32? {
-			guard let index = table.columns.firstIndex(where: { $0.name == key.stringValue }) else {
+		private func index(for key: Key) -> Int32? {
+			guard let index = decoder.table.columns.firstIndex(where: { $0.name == key.stringValue }) else {
 				fatalError()
 //				return nil
 			}
@@ -137,11 +131,11 @@ class _Reader: Decoder {
 			}
 			
 			if let U = T.self as? Unbindable.Type {
-				return try U.unbind(from: s, at: i) as! T
+				return try U.unbind(from: decoder.s, at: i) as! T
 			} else {
-				print(T.self)
-				let data = try Data.unbind(from: s, at: i)
-				return try jsonDecoder.decode(T.self, from: data)
+				assert(decoder.currentColumn == nil)
+				decoder.currentColumn = i
+				return try T(from: decoder)
 			}
 		}
 		
@@ -159,6 +153,39 @@ class _Reader: Decoder {
 		
 		func superDecoder(forKey key: Key) throws -> Decoder {
 			fatalError()
+		}
+		
+	}
+	
+	class SingleValueContainer: SingleValueDecodingContainer {
+		var codingPath: [CodingKey] = []
+		
+		let decoder: _Reader
+		
+		init(_ decoder: _Reader) {
+			self.decoder = decoder
+		}
+		
+		func decodeNil() -> Bool {
+			return decoder.currentColumn == nil
+		}
+		
+		func decode<T>(_ type: T.Type) throws -> T where T : Decodable {
+			defer {
+				decoder.currentColumn = nil
+			}
+			
+			guard let index = decoder.currentColumn else {
+				fatalError()
+			}
+			
+			if let U = T.self as? Unbindable.Type {
+				return try U.unbind(from: decoder.s, at: index) as! T
+			} else {
+				let data = try Data.unbind(from: decoder.s, at: index)
+				let d = JSONDecoder()
+				return try d.decode(T.self, from: data)
+			}
 		}
 		
 	}

@@ -37,8 +37,13 @@ class Connection {
 		if !FileManager.default.fileExists(atPath: url.path) {
 			print("Directory doesn't exist")
 			do {
+				print("Creating directory")
 				try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: false)
+				print("Created directory")
 			} catch let error as NSError {
+				print(url.path)
+				print(url.absoluteString)
+				print(url)
 				guard error.code == 516 else {
 					fatalError(String(reflecting: error))
 				}
@@ -53,6 +58,7 @@ class Connection {
 			fatalError()
 		}
 		guard status == .ok else {
+			print(Connection.error(db))
 			fatalError()
 		}
 		self.init(db, queue: queue)
@@ -60,6 +66,10 @@ class Connection {
 	
 	convenience init(_ configuration: Database.Configuration, queue: DispatchQueue) {
 		self.init(dir: configuration.directory, name: configuration.filename, queue: queue)
+	}
+	
+	private static func error(_ db: OpaquePointer) -> String {
+		return String(cString: sqlite3_errmsg(db))
 	}
 	
 	func sync<T>(_ block: (OpaquePointer) -> T) -> T {
