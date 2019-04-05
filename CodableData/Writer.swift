@@ -68,8 +68,6 @@ class Writer<T: SQLModel & Encodable> {
 		}
 		
 		try s.step()
-		
-		//TODO: return the inserted row
 	}
 	
 }

@@ -11,7 +11,7 @@ import Foundation
 
 extension Database {
 	
-	private static func _read<T>(db: OpaquePointer, _ : T.Type, query: String, bindings: [Bindable]) -> [T] where T: Decodable & SQLModel {
+	static func read<T>(db: OpaquePointer, _ : T.Type, query: String, bindings: [Bindable]) -> [T] where T: Decodable & SQLModel {
 		guard let table = Database._table(db: db, named: T.tableName) else {
 			print("No such table")
 			return []
@@ -54,20 +54,20 @@ extension Database {
 		}
 	}
 	
-	private static func _get<T: Decodable & SQLModel>(db: OpaquePointer, _: T.Type, limit: Int? = nil, page: Int = 1) -> [T] {
+	static func get<T: Decodable & SQLModel>(db: OpaquePointer, _: T.Type, limit: Int? = nil, page: Int = 1) -> [T] {
 		var query = ""
 		if let limit = limit {
 			query += "LIMIT \(limit) OFFSET \((page-1) * limit)"
 		}
-		return _read(db: db, T.self, query: query, bindings: [])
+		return read(db: db, T.self, query: query, bindings: [])
 	}
 	
-	private static func _get<T: Decodable & SQLModel>(db: OpaquePointer, _: T.Type, filter: Filter<T>, limit: Int? = nil, page: Int = 1) -> [T] {
+	static func get<T: Decodable & SQLModel>(db: OpaquePointer, _: T.Type, filter: Filter<T>, limit: Int? = nil, page: Int = 1) -> [T] {
 		var query = filter.query
 		if let limit = limit {
 			query += " LIMIT \(limit) OFFSET \((page-1) * limit)"
 		}
-		return _read(db: db, T.self, query: query, bindings: filter.bindings)
+		return read(db: db, T.self, query: query, bindings: filter.bindings)
 	}
 	
 }
@@ -78,25 +78,25 @@ extension Database {
 	
 	public func get<U: Decodable & SQLModel>(_ : U.Type) -> [U] {
 		return sync { db in
-			return Database._get(db: db, U.self)
+			return Database.get(db: db, U.self)
 		}
 	}
 	
 	public func get<U: Decodable & SQLModel>(_ : U.Type, limit: Int, page: Int = 1) -> [U] {
 		return sync { db in
-			return Database._get(db: db, U.self, limit: limit, page: page)
+			return Database.get(db: db, U.self, limit: limit, page: page)
 		}
 	}
 	
 	public func get<U: Decodable & SQLModel>(where filter: Filter<U>) -> [U] {
 		return sync { db in
-			return Database._get(db: db, U.self, filter: filter)
+			return Database.get(db: db, U.self, filter: filter)
 		}
 	}
 	
 	public func get<U: Decodable & SQLModel>(where filter: Filter<U>, limit: Int, page: Int = 1) -> [U] {
 		return sync { db in
-			return Database._get(db: db, U.self, filter: filter, limit: limit, page: page)
+			return Database.get(db: db, U.self, filter: filter, limit: limit, page: page)
 		}
 	}
 	
@@ -108,25 +108,25 @@ extension Database {
 	
 	public func get<U: Decodable & SQLModel>(_ : U.Type, _ handler: @escaping ([U]) -> Void) {
 		async { (db) in
-			handler(Database._get(db: db, U.self))
+			handler(Database.get(db: db, U.self))
 		}
 	}
 	
 	public func get<U: Decodable & SQLModel>(_ : U.Type, limit: Int, page: Int = 1, _ handler: @escaping ([U]) -> Void) {
 		async { (db) in
-			handler(Database._get(db: db, U.self, limit: limit, page: page))
+			handler(Database.get(db: db, U.self, limit: limit, page: page))
 		}
 	}
 	
 	public func get<U: Decodable & SQLModel>(where filter: Filter<U>, _ handler: @escaping ([U]) -> Void) {
 		async { (db) in
-			handler(Database._get(db: db, U.self, filter: filter))
+			handler(Database.get(db: db, U.self, filter: filter))
 		}
 	}
 	
 	public func get<U: Decodable & SQLModel>(where filter: Filter<U>, limit: Int, page: Int = 1, _ handler: @escaping ([U]) -> Void) {
 		async { (db) in
-			handler(Database._get(db: db, U.self, filter: filter, limit: limit, page: page))
+			handler(Database.get(db: db, U.self, filter: filter, limit: limit, page: page))
 		}
 	}
 	

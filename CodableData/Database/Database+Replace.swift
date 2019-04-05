@@ -11,7 +11,14 @@ import Foundation
 
 extension Database {
 	
-	private static func _replace<T>(db: OpaquePointer, _ value: T) where T: SQLModel & Encodable {
+	private static func replaceAndRead<T>(db: OpaquePointer, _ value: T) -> T where T: SQLModel & Codable {
+		let id = value.id
+		replace(db: db, value)
+		
+		return Database.read(db: db, T.self, query: "id = ? LIMIT 1", bindings: [id]).first!
+	}
+	
+	private static func replace<T>(db: OpaquePointer, _ value: T) where T: SQLModel & Encodable {
 		let writer = Writer<T>()
 		
 		do {
@@ -45,8 +52,15 @@ extension Database {
 extension Database {
 	
 	public func save<T>(_ value: T) where T: SQLModel & Encodable {
-		sync { db in
-			Database._replace(db: db, value)
+		return sync { db in
+			return Database.replace(db: db, value)
+		}
+	}
+	
+	@discardableResult
+	public func save<T>(_ value: T) -> T where T: SQLModel & Codable {
+		return sync { db in
+			return Database.replaceAndRead(db: db, value)
 		}
 	}
 	
@@ -58,8 +72,14 @@ extension Database {
 	
 	public func save<T>(_ value: T, _ handler: @escaping () -> Void) where T: SQLModel & Encodable {
 		async { db in
-			Database._replace(db: db, value)
+			Database.replace(db: db, value)
 			handler()
+		}
+	}
+	
+	public func save<T>(_ value: T, _ handler: @escaping (T) -> Void) where T: SQLModel & Codable {
+		async { db in
+			handler(Database.replaceAndRead(db: db, value))
 		}
 	}
 	
