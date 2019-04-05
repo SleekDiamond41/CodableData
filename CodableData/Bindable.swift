@@ -10,6 +10,7 @@ import Foundation
 import SQLite3
 
 
+
 public enum SQLValue {
 	case text(String)
 	case integer(Int64)
