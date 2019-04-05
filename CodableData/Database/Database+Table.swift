@@ -13,7 +13,7 @@ import Foundation
 extension Database {
 	
 	static func _table(db: OpaquePointer, named name: String) -> Table? {
-		var s = Statement("PRAGMA TABLE_INFO(\(name))")
+		var s = Statement("PRAGMA TABLE_INFO([\(name)])")
 		
 		do {
 			
@@ -37,7 +37,7 @@ extension Database {
 			}
 			
 			if columns.count > 0 {
-				return Table(name: name, columns: columns)
+				return Table(name: "[" + name + "]", columns: columns)
 			} else {
 				return nil
 			}

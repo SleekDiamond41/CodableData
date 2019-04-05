@@ -71,7 +71,7 @@ extension String {
 			print("Done '\(result)'")
 		}
 		
-		return "[" + result + "]"
+		return result
 	}
 	
 }

@@ -58,7 +58,7 @@ class Reader {
 	
 	func read<T: Decodable>(_ : T.Type, s: Statement, _ table: Table) throws -> T {
 		let r = _Reader(s, table)
-		return try T.init(from: r)
+		return try T(from: r)
 	}
 }
 

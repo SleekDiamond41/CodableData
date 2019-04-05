@@ -37,7 +37,7 @@ class Writer<T: SQLModel & Encodable> {
 	}
 	
 	func tableDefinition() -> Table {
-		return Table(name: T.tableName, columns:
+		return Table(name: "[" + T.tableName + "]", columns:
 			writer.values.map {
 				Table.Column(name: $0.0, type: $0.1.bindingValue)
 			}
