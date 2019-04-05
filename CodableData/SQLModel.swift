@@ -54,21 +54,17 @@ extension String {
 	
 	func sqlFormatted() -> String {
 		var result = self
-		print("---- Table Name ----\nBefore:\t\(result)")
+		
 		if result.hasSuffix(".type") {
 			var i = result.endIndex
 			result.formIndex(&i, offsetBy: -5)
 			result.removeSubrange(i...)
 		}
-		print("After: \t\(result)")
 		
-		print("NAME IS '\(result)'")
 		if result.hasPrefix("__lldb_expr_") {
-			print("Clipping '\(result)'")
 			let range = result.range(of: ".")!
 			result.removeSubrange(result.startIndex...range.lowerBound)
 			result = "PlaygroundModel." + result
-			print("Done '\(result)'")
 		}
 		
 		return result
