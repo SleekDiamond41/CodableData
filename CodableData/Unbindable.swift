@@ -72,6 +72,37 @@ extension Int: Unbindable {
 	}
 }
 
+extension UInt64: Unbindable {
+	static func unbind(from s: Statement, at index: Int32) throws -> UInt64 {
+		let int64 = try Int64.unbind(from: s, at: index)
+		return UInt64(int64 + Int64.max)
+	}
+}
+
+extension UInt32: Unbindable {
+	static func unbind(from s: Statement, at index: Int32) throws -> UInt32 {
+		return UInt32(try UInt64.unbind(from: s, at: index))
+	}
+}
+
+extension UInt16: Unbindable {
+	static func unbind(from s: Statement, at index: Int32) throws -> UInt16 {
+		return UInt16(try UInt64.unbind(from: s, at: index))
+	}
+}
+
+extension UInt8: Unbindable {
+	static func unbind(from s: Statement, at index: Int32) throws -> UInt8 {
+		return UInt8(try UInt64.unbind(from: s, at: index))
+	}
+}
+
+extension UInt: Unbindable {
+	static func unbind(from s: Statement, at index: Int32) throws -> UInt {
+		return UInt(try UInt64.unbind(from: s, at: index))
+	}
+}
+
 extension Double: Unbindable {
 	static func unbind(from s: Statement, at index: Int32) throws -> Double {
 		return sqlite3_column_double(s.p, index)
@@ -91,6 +122,12 @@ extension Data: Unbindable {
 		}
 		let len = sqlite3_column_bytes(s.p, index)
 		return Data(bytes: raw, count: Int(len))
+	}
+}
+
+extension Date: Unbindable {
+	static func unbind(from s: Statement, at index: Int32) throws -> Date {
+		return Date(timeIntervalSince1970: try Double.unbind(from: s, at: index))
 	}
 }
 

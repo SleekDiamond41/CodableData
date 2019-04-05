@@ -108,6 +108,36 @@ extension Int8: Bindable {
 	}
 }
 
+extension UInt64: Bindable {
+	public var bindingValue: SQLValue {
+		return .integer(Int64(self - UInt64(Int64.max)))
+	}
+}
+
+extension UInt: Bindable {
+	public var bindingValue: SQLValue {
+		return Int64(self).bindingValue
+	}
+}
+
+extension UInt32: Bindable {
+	public var bindingValue: SQLValue {
+		return Int64(self).bindingValue
+	}
+}
+
+extension UInt16: Bindable {
+	public var bindingValue: SQLValue {
+		return Int64(self).bindingValue
+	}
+}
+
+extension UInt8: Bindable {
+	public var bindingValue: SQLValue {
+		return Int64(self).bindingValue
+	}
+}
+
 extension Double: Bindable {
 	public var bindingValue: SQLValue {
 		return .double(self)
@@ -123,6 +153,12 @@ extension Float: Bindable {
 extension Data: Bindable {
 	public var bindingValue: SQLValue {
 		return .blob(self)
+	}
+}
+
+extension Date: Bindable {
+	public var bindingValue: SQLValue {
+		return .double(timeIntervalSince1970)
 	}
 }
 
