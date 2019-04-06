@@ -62,12 +62,8 @@ extension Database {
 		return read(db: db, T.self, query: query, bindings: [])
 	}
 	
-	static func get<T: Decodable & SQLModel>(db: OpaquePointer, _: T.Type, filter: Filter<T>, limit: Int? = nil, page: Int = 1) -> [T] {
-		var query = filter.query
-		if let limit = limit {
-			query += " LIMIT \(limit) OFFSET \((page-1) * limit)"
-		}
-		return read(db: db, T.self, query: query, bindings: filter.bindings)
+	static func get<T: Decodable & SQLModel>(db: OpaquePointer, _: T.Type, filter: Filter<T>) -> [T] {
+		return read(db: db, T.self, query: filter.query, bindings: filter.bindings)
 	}
 	
 }
@@ -88,15 +84,15 @@ extension Database {
 		}
 	}
 	
-	public func get<U: Decodable & SQLModel>(where filter: Filter<U>) -> [U] {
+	public func get<U: Decodable & SQLModel>(with filter: Filter<U>) -> [U] {
 		return sync { db in
 			return Database.get(db: db, U.self, filter: filter)
 		}
 	}
 	
-	public func get<U: Decodable & SQLModel>(where filter: Filter<U>, limit: Int, page: Int = 1) -> [U] {
+	public func get<U: Decodable & SQLModel>(with sorting: SortRule<U>) -> [U] {
 		return sync { db in
-			return Database.get(db: db, U.self, filter: filter, limit: limit, page: page)
+			return Database.get(db: db, U.self, filter: Filter(sorting))
 		}
 	}
 	
@@ -118,15 +114,15 @@ extension Database {
 		}
 	}
 	
-	public func get<U: Decodable & SQLModel>(where filter: Filter<U>, _ handler: @escaping ([U]) -> Void) {
+	public func get<U: Decodable & SQLModel>(with filter: Filter<U>, _ handler: @escaping ([U]) -> Void) {
 		async { (db) in
 			handler(Database.get(db: db, U.self, filter: filter))
 		}
 	}
 	
-	public func get<U: Decodable & SQLModel>(where filter: Filter<U>, limit: Int, page: Int = 1, _ handler: @escaping ([U]) -> Void) {
+	public func get<U: Decodable & SQLModel>(with sorting: SortRule<U>, _ handler: @escaping ([U]) -> Void) {
 		async { (db) in
-			handler(Database.get(db: db, U.self, filter: filter, limit: limit, page: page))
+			handler(Database.get(db: db, U.self, filter: Filter(sorting)))
 		}
 	}
 	

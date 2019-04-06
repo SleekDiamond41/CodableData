@@ -23,10 +23,10 @@ public struct Filter<Element: Filterable> {
 			result += "WHERE " + _query
 		}
 		if let sort = sort {
-			result += " " + sort.query
+			result += (result.count > 0 ? " " : "") + sort.query
 		}
 		if let limit = limit {
-			result += " " + limit.query
+			result += (result.count > 0 ? " " : "") + limit.query
 		}
 		return result
 	}
@@ -41,6 +41,13 @@ public struct Filter<Element: Filterable> {
 		self._query = query
 		self.bindings = bindings
 		self.limit = limit
+		self.sort = sort
+	}
+	
+	init(_ sort: SortRule<Element>) {
+		self._query = ""
+		self.bindings = []
+		self.limit = nil
 		self.sort = sort
 	}
 	
