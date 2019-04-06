@@ -35,6 +35,7 @@
 		4C4AD9BF2255400000EC174A /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9BE2255400000EC174A /* Configuration.swift */; };
 		4C4AD9C12255811900EC174A /* SortRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9C02255811900EC174A /* SortRule.swift */; };
 		4C4AD9C3225584A600EC174A /* Limit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9C2225584A600EC174A /* Limit.swift */; };
+		4C99701D22591B4300043C18 /* Database+Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C99701C22591B4300043C18 /* Database+Delete.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		4C4AD9F1225593B600EC174A /* TableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableTests.swift; sourceTree = "<group>"; };
 		4C4AD9F2225593B600EC174A /* CodableDataTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodableDataTests.swift; sourceTree = "<group>"; };
 		4C4AD9F3225593B600EC174A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4C99701C22591B4300043C18 /* Database+Delete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Database+Delete.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +167,7 @@
 				4C4AD9A0225170DE00EC174A /* Database+Replace.swift */,
 				4C4AD9A22251718000EC174A /* Database+Table.swift */,
 				4C4AD9BC2255386600EC174A /* Database+Column.swift */,
+				4C99701C22591B4300043C18 /* Database+Delete.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				4C4AD9B222550F8F00EC174A /* Comparison.swift in Sources */,
 				4C4AD99B2251380500EC174A /* Reader.swift in Sources */,
 				4C4AD9A32251718000EC174A /* Database+Table.swift in Sources */,
+				4C99701D22591B4300043C18 /* Database+Delete.swift in Sources */,
 				4C4AD98F2250445600EC174A /* Database.swift in Sources */,
 				4C4AD99F22516E9A00EC174A /* Database+Read.swift in Sources */,
 				4C4AD9BF2255400000EC174A /* Configuration.swift in Sources */,
