@@ -90,7 +90,7 @@ extension Database {
 		}
 	}
 	
-	public func get<U: Decodable & SQLModel>(with sorting: SortRule<U>) -> [U] {
+	public func get<U: Decodable & SQLModel>(sorting: SortRule<U>) -> [U] {
 		return sync { db in
 			return Database.get(db: db, U.self, filter: Filter(sorting))
 		}
@@ -120,7 +120,7 @@ extension Database {
 		}
 	}
 	
-	public func get<U: Decodable & SQLModel>(with sorting: SortRule<U>, _ handler: @escaping ([U]) -> Void) {
+	public func get<U: Decodable & SQLModel>(sorting: SortRule<U>, _ handler: @escaping ([U]) -> Void) {
 		async { (db) in
 			handler(Database.get(db: db, U.self, filter: Filter(sorting)))
 		}

@@ -38,7 +38,7 @@ class Connection {
 			print("Directory doesn't exist")
 			do {
 				print("Creating directory")
-				try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: false)
+				try FileManager.default.createDirectory(atPath: dir.path, withIntermediateDirectories: true)
 				print("Created directory")
 			} catch let error as NSError {
 				print(url.path)
