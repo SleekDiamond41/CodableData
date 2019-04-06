@@ -15,7 +15,7 @@ extension Database {
 		let id = value.id
 		replace(db: db, value)
 		
-		return Database.read(db: db, T.self, query: "id = ? LIMIT 1", bindings: [id]).first!
+		return Database.read(db: db, T.self, query: "WHERE id = ? LIMIT 1", bindings: [id]).first!
 	}
 	
 	private static func replace<T>(db: OpaquePointer, _ value: T) where T: SQLModel & Encodable {
