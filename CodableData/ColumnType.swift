@@ -18,7 +18,7 @@ enum ColumnType: String {
 
 
 extension ColumnType: Unbindable {
-	static func unbind(from s: Statement, at index: Int32) throws -> ColumnType {
+	static func unbind(from s: Statement, at index: Int32!) throws -> ColumnType {
 		let type = try String.unbind(from: s, at: index)
 		
 		if type.contains("TEXT") {

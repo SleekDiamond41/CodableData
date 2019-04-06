@@ -111,8 +111,8 @@ fileprivate class _Reader: Decoder {
 		
 		private func index(for key: Key) -> Int32? {
 			guard let index = decoder.table.columns.firstIndex(where: { $0.name == key.stringValue }) else {
-				fatalError()
-//				return nil
+//				fatalError()
+				return nil
 			}
 			return Int32(index)
 		}
@@ -126,9 +126,7 @@ fileprivate class _Reader: Decoder {
 		}
 		
 		func decode<T>(_ type: T.Type, forKey key: Key) throws -> T where T : Decodable {
-			guard let i = index(for: key) else {
-				fatalError()
-			}
+			let i = index(for: key)
 			
 			if let U = T.self as? Unbindable.Type {
 				return try U.unbind(from: decoder.s, at: i) as! T
