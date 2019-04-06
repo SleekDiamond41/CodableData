@@ -9,7 +9,7 @@
 import Foundation
 
 fileprivate func string<Element, T>(path: KeyPath<Element, T>, ascending: Bool) -> String where Element: Filterable, T: Bindable & Comparable {
-	return "\(Element.key(for: path).stringValue) \(ascending ? "ASC" : "DESC")"
+	return "ORDER BY \(Element.key(for: path).stringValue) \(ascending ? "ASC" : "DESC")"
 }
 
 
