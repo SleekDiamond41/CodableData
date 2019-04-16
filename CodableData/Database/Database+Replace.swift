@@ -51,12 +51,7 @@ extension Database {
 //MARK: - Sync
 extension Database {
 	
-	public func save<T>(_ value: T) where T: SQLModel & Codable {
-		return sync { db in
-			return Database.replace(db: db, value)
-		}
-	}
-	
+	@discardableResult
 	public func save<T>(_ value: T) -> T where T: SQLModel & Codable {
 		return sync { db in
 			return Database.replaceAndRead(db: db, value)
