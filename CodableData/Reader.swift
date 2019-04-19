@@ -10,24 +10,24 @@ import Foundation
 import SQLite3
 
 
-public struct Person: CDModel, Equatable {
-	public let id: UUID
-	public let name: String
-	public let nickName: String?
+struct Person: CDModel, Equatable {
+	let id: UUID
+	let name: String
+	let nickName: String?
 	
-	public init(id: UUID, name: String, nickName: String? = nil) {
+	init(id: UUID, name: String, nickName: String? = nil) {
 		self.id = id
 		self.name = name
 		self.nickName = nickName
 	}
 	
-	public enum CodingKeys: String, CodingKey {
+	enum CodingKeys: String, CodingKey {
 		case id
 		case name
 		case nickName = "nick_name"
 	}
 	
-	public init(from decoder: Decoder) throws {
+	init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		
 		self.id = try container.decode(UUID.self, forKey: .id)
@@ -35,7 +35,7 @@ public struct Person: CDModel, Equatable {
 		self.nickName = try container.decode(String?.self, forKey: .nickName)
 	}
 	
-	public func encode(to encoder: Encoder) throws {
+	func encode(to encoder: Encoder) throws {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		
 		try container.encode(id, forKey: .id)

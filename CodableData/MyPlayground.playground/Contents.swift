@@ -3,13 +3,15 @@ import Foundation
 import CodableData
 import PlaygroundSupport
 
+
+
 let shared = playgroundSharedDataDirectory
 let dir = shared.appendingPathComponent("CodableData")//.appendingPathComponent("Database")
-let config = Database.Configuration(dir: dir)
-let db = Database(config)
+let config = CDDatabase.Configuration(dir: dir)
+let db = CDDatabase(config)
 
 
-struct Person: Codable, UUIDModel {
+struct Person: Codable, CDUUIDModel {
 	let id: UUID
 	let birthday: Date
 	var name: String
@@ -26,7 +28,7 @@ struct Person: Codable, UUIDModel {
 }
 
 extension Person: CDFilterable {
-	static func key<T>(for path: KeyPath<Person, T>) -> CodingKeys where T : Bindable {
+	static func key<T>(for path: KeyPath<Person, T>) -> CodingKeys where T : CDBindable {
 		switch path {
 		case \Person.birthday:
 			return .birthday
@@ -63,7 +65,7 @@ print(birthday.timeIntervalSince1970)
 
 birthday == person.birthday
 
-let filter = Filter<Person>(\.birthday, is: .equal(to: birthday))
+let filter = CDFilter<Person>(\.birthday, is: .equal(to: birthday))
 let results = db.get(with: filter)
 results.count
 print(results.first!)
