@@ -28,7 +28,7 @@
 		4C4AD9AC2254851F00EC174A /* CDModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9AB2254851F00EC174A /* CDModel.swift */; };
 		4C4AD9B022550BBF00EC174A /* CDEquality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9AF22550BBF00EC174A /* CDEquality.swift */; };
 		4C4AD9B222550F8F00EC174A /* CDComparison.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9B122550F8F00EC174A /* CDComparison.swift */; };
-		4C4AD9B42255114000EC174A /* CDStringComparison.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9B32255114000EC174A /* CDStringComparison.swift */; };
+		4C4AD9B42255114000EC174A /* CDStringEquality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9B32255114000EC174A /* CDStringEquality.swift */; };
 		4C4AD9B62255291700EC174A /* CDDatabase+Count.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9B52255291700EC174A /* CDDatabase+Count.swift */; };
 		4C4AD9BD2255386600EC174A /* CDDatabase+Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9BC2255386600EC174A /* CDDatabase+Column.swift */; };
 		4C4AD9BF2255400000EC174A /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9BE2255400000EC174A /* Configuration.swift */; };
@@ -71,7 +71,7 @@
 		4C4AD9AB2254851F00EC174A /* CDModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDModel.swift; sourceTree = "<group>"; };
 		4C4AD9AF22550BBF00EC174A /* CDEquality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDEquality.swift; sourceTree = "<group>"; };
 		4C4AD9B122550F8F00EC174A /* CDComparison.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDComparison.swift; sourceTree = "<group>"; };
-		4C4AD9B32255114000EC174A /* CDStringComparison.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDStringComparison.swift; sourceTree = "<group>"; };
+		4C4AD9B32255114000EC174A /* CDStringEquality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDStringEquality.swift; sourceTree = "<group>"; };
 		4C4AD9B52255291700EC174A /* CDDatabase+Count.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDDatabase+Count.swift"; sourceTree = "<group>"; };
 		4C4AD9BC2255386600EC174A /* CDDatabase+Column.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDDatabase+Column.swift"; sourceTree = "<group>"; };
 		4C4AD9BE2255400000EC174A /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
@@ -151,7 +151,7 @@
 				4C4AD9C02255811900EC174A /* CDSortRule.swift */,
 				4C4AD9B122550F8F00EC174A /* CDComparison.swift */,
 				4C4AD9AF22550BBF00EC174A /* CDEquality.swift */,
-				4C4AD9B32255114000EC174A /* CDStringComparison.swift */,
+				4C4AD9B32255114000EC174A /* CDStringEquality.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -312,7 +312,7 @@
 				4C4AD99F22516E9A00EC174A /* CDDatabase+Get.swift in Sources */,
 				4C4AD9BF2255400000EC174A /* Configuration.swift in Sources */,
 				4C4AD9B022550BBF00EC174A /* CDEquality.swift in Sources */,
-				4C4AD9B42255114000EC174A /* CDStringComparison.swift in Sources */,
+				4C4AD9B42255114000EC174A /* CDStringEquality.swift in Sources */,
 				4C4AD9C3225584A600EC174A /* CDLimit.swift in Sources */,
 				4C4AD9AC2254851F00EC174A /* CDModel.swift in Sources */,
 				4C4AD9C12255811900EC174A /* CDSortRule.swift in Sources */,
