@@ -11,6 +11,7 @@ import SQLite3
 
 
 
+/// A value that can be bound into a SQLite statement
 public enum CDValue {
 	case text(String)
 	case integer(Int64)
@@ -52,7 +53,10 @@ public enum CDValue {
 }
 
 
+/// A value that can be bound to a SQLite statement.
 public protocol CDBindable: Encodable {
+	
+	/// The value to be bound into the SQLite statement.
 	var bindingValue: CDValue { get }
 }
 
