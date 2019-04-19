@@ -9,7 +9,7 @@
 import Foundation
 
 
-extension Database {
+extension CDDatabase {
 	
 	public struct Configuration {
 		

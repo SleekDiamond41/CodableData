@@ -9,28 +9,28 @@
 import Foundation
 
 
-extension Database {
+extension CDDatabase {
 	
-	private static func replaceAndRead<T>(db: OpaquePointer, _ value: T) -> T where T: SQLModel & Codable {
+	private static func replaceAndRead<T>(db: OpaquePointer, _ value: T) -> T where T: CDModel & Codable {
 		let id = value.id
 		replace(db: db, value)
 		
-		return Database.read(db: db, T.self, query: "WHERE id = ? LIMIT 1", bindings: [id]).first!
+		return CDDatabase.read(db: db, T.self, query: "WHERE id = ? LIMIT 1", bindings: [id]).first!
 	}
 	
-	private static func replace<T>(db: OpaquePointer, _ value: T) where T: SQLModel & Encodable {
+	private static func replace<T>(db: OpaquePointer, _ value: T) where T: CDModel & Encodable {
 		let writer = Writer<T>()
 		
 		do {
 			try writer.prepare(value)
 			
-			var table: Table! = Database._table(db: db, named: T.tableName)
+			var table: Table! = CDDatabase._table(db: db, named: T.tableName)
 			
 			if table == nil {
 				let t = writer.tableDefinition()
-				Database._create(db: db, t)
+				CDDatabase._create(db: db, t)
 				
-				table = Database._table(db: db, named: T.tableName)
+				table = CDDatabase._table(db: db, named: T.tableName)
 			}
 			
 			var a = table!
@@ -49,17 +49,17 @@ extension Database {
 }
 
 //MARK: - Sync
-extension Database {
+extension CDDatabase {
 	
-	public func save<T>(_ value: T) where T: SQLModel & Codable {
+//	public func save<T>(_ value: T) where T: SQLModel & Codable {
+//		return sync { db in
+//			return Database.replace(db: db, value)
+//		}
+//	}
+	@discardableResult
+	public func save<T>(_ value: T) -> T where T: CDModel & Codable {
 		return sync { db in
-			return Database.replace(db: db, value)
-		}
-	}
-	
-	public func save<T>(_ value: T) -> T where T: SQLModel & Codable {
-		return sync { db in
-			return Database.replaceAndRead(db: db, value)
+			return CDDatabase.replaceAndRead(db: db, value)
 		}
 	}
 	
@@ -67,18 +67,18 @@ extension Database {
 
 
 //MARK: - Async
-extension Database {
+extension CDDatabase {
 	
-	public func save<T>(_ value: T, _ handler: @escaping () -> Void) where T: SQLModel & Codable {
+	public func save<T>(_ value: T, _ handler: @escaping () -> Void) where T: CDModel & Codable {
 		async { db in
-			Database.replace(db: db, value)
+			CDDatabase.replace(db: db, value)
 			handler()
 		}
 	}
 	
-	public func save<T>(_ value: T, _ handler: @escaping (T) -> Void) where T: SQLModel & Codable {
+	public func save<T>(_ value: T, _ handler: @escaping (T) -> Void) where T: CDModel & Codable {
 		async { db in
-			handler(Database.replaceAndRead(db: db, value))
+			handler(CDDatabase.replaceAndRead(db: db, value))
 		}
 	}
 	

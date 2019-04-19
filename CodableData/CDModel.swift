@@ -9,36 +9,36 @@
 import Foundation
 
 
-public protocol SQLModel {
-	associatedtype PrimaryKey: Bindable & Equatable
+public protocol CDModel {
+	associatedtype PrimaryKey: CDBindable & Equatable
 	var id: PrimaryKey { get }
 	static var tableName: String { get }
 }
 
-extension SQLModel {
+extension CDModel {
 	public static var tableName: String {
 		return String(reflecting: Self.self).sqlFormatted()
 	}
 }
 
-public protocol UUIDModel: SQLModel where PrimaryKey == UUID {
+public protocol CDUUIDModel: CDModel where PrimaryKey == UUID {
 	var id: UUID { get }
 }
 
-public protocol RowModel: SQLModel where PrimaryKey == Int64? {
+public protocol CDRowModel: CDModel where PrimaryKey == Int64? {
 	var id: Int64? { get }
 }
 
-struct Paper: Codable, UUIDModel {
+struct Paper: Codable, CDUUIDModel {
 	let id: UUID
 }
 
-extension Paper: Filterable {
+extension Paper: CDFilterable {
 	enum CodingKeys: String, CodingKey {
 		case id
 	}
 	typealias FilterKey = CodingKeys
-	static func key<T>(for path: KeyPath<Paper, T>) -> Paper.FilterKey where T : Bindable {
+	static func key<T>(for path: KeyPath<Paper, T>) -> Paper.FilterKey where T : CDBindable {
 		switch path {
 		case \Paper.id:
 			return .id
@@ -75,7 +75,7 @@ extension String {
 
 //TODO: Implement SQLRowModel to allow tables that use row id as the primary key
 
-//public typealias SQLRowModel = Codable & RowModel & Filterable
+//public typealias SQLRowModel = Codable & RowModel & CDFilterable
 //public protocol RowModel {
 //	var id: Int64? { get }
 //}

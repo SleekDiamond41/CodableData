@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class Database {
+public class CDDatabase {
 	
 	public let configuration: Configuration
 	
@@ -51,13 +51,13 @@ public class Database {
 	
 	func execute(_ query: String) {
 		sync { db in
-			Database._execute(db: db, query)
+			CDDatabase._execute(db: db, query)
 		}
 	}
 	
 	func execute(_ query: String, _ handler: @escaping () -> Void) {
 		async { db in
-			Database._execute(db: db, query)
+			CDDatabase._execute(db: db, query)
 			handler()
 		}
 	}

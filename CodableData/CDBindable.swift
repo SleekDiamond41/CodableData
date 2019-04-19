@@ -11,7 +11,7 @@ import SQLite3
 
 
 
-public enum SQLValue {
+public enum CDValue {
 	case text(String)
 	case integer(Int64)
 	case double(Double)
@@ -52,12 +52,12 @@ public enum SQLValue {
 }
 
 
-public protocol Bindable: Encodable {
-	var bindingValue: SQLValue { get }
+public protocol CDBindable: Encodable {
+	var bindingValue: CDValue { get }
 }
 
-extension Optional: Bindable where Wrapped: Bindable {
-	public var bindingValue: SQLValue {
+extension Optional: CDBindable where Wrapped: CDBindable {
+	public var bindingValue: CDValue {
 		switch self {
 		case .none:
 			return .null
@@ -67,104 +67,104 @@ extension Optional: Bindable where Wrapped: Bindable {
 	}
 }
 
-extension UUID: Bindable {
-	public var bindingValue: SQLValue {
+extension UUID: CDBindable {
+	public var bindingValue: CDValue {
 		return uuidString.bindingValue
 	}
 }
 
-extension String: Bindable {
-	public var bindingValue: SQLValue {
+extension String: CDBindable {
+	public var bindingValue: CDValue {
 		return .text(self)
 	}
 }
 
-extension Int64: Bindable {
-	public var bindingValue: SQLValue {
+extension Int64: CDBindable {
+	public var bindingValue: CDValue {
 		return .integer(self)
 	}
 }
 
-extension Int: Bindable {
-	public var bindingValue: SQLValue {
+extension Int: CDBindable {
+	public var bindingValue: CDValue {
 		return Int64(self).bindingValue
 	}
 }
 
-extension Int32: Bindable {
-	public var bindingValue: SQLValue {
+extension Int32: CDBindable {
+	public var bindingValue: CDValue {
 		return Int64(self).bindingValue
 	}
 }
 
-extension Int16: Bindable {
-	public var bindingValue: SQLValue {
+extension Int16: CDBindable {
+	public var bindingValue: CDValue {
 		return Int64(self).bindingValue
 	}
 }
 
-extension Int8: Bindable {
-	public var bindingValue: SQLValue {
+extension Int8: CDBindable {
+	public var bindingValue: CDValue {
 		return Int64(self).bindingValue
 	}
 }
 
-extension UInt64: Bindable {
-	public var bindingValue: SQLValue {
+extension UInt64: CDBindable {
+	public var bindingValue: CDValue {
 		return .integer(Int64(self - UInt64(Int64.max)))
 	}
 }
 
-extension UInt: Bindable {
-	public var bindingValue: SQLValue {
+extension UInt: CDBindable {
+	public var bindingValue: CDValue {
 		return Int64(self).bindingValue
 	}
 }
 
-extension UInt32: Bindable {
-	public var bindingValue: SQLValue {
+extension UInt32: CDBindable {
+	public var bindingValue: CDValue {
 		return Int64(self).bindingValue
 	}
 }
 
-extension UInt16: Bindable {
-	public var bindingValue: SQLValue {
+extension UInt16: CDBindable {
+	public var bindingValue: CDValue {
 		return Int64(self).bindingValue
 	}
 }
 
-extension UInt8: Bindable {
-	public var bindingValue: SQLValue {
+extension UInt8: CDBindable {
+	public var bindingValue: CDValue {
 		return Int64(self).bindingValue
 	}
 }
 
-extension Double: Bindable {
-	public var bindingValue: SQLValue {
+extension Double: CDBindable {
+	public var bindingValue: CDValue {
 		return .double(self)
 	}
 }
 
-extension Float: Bindable {
-	public var bindingValue: SQLValue {
+extension Float: CDBindable {
+	public var bindingValue: CDValue {
 		return Double(self).bindingValue
 	}
 }
 
-extension Data: Bindable {
-	public var bindingValue: SQLValue {
+extension Data: CDBindable {
+	public var bindingValue: CDValue {
 		return .blob(self)
 	}
 }
 
-extension Date: Bindable {
-	public var bindingValue: SQLValue {
+extension Date: CDBindable {
+	public var bindingValue: CDValue {
 		return .double(timeIntervalSince1970)
 	}
 }
 
-extension Bool: Bindable {
-	public var bindingValue: SQLValue {
+extension Bool: CDBindable {
+	public var bindingValue: CDValue {
 		return .integer(self ? 1 : 0)
 	}
 }

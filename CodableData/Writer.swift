@@ -9,7 +9,7 @@
 import Foundation
 
 extension Table.Column {
-	init(name: String, type: SQLValue) {
+	init(name: String, type: CDValue) {
 		switch type {
 		case .text:
 			self.type = .text
@@ -27,7 +27,7 @@ extension Table.Column {
 	}
 }
 
-class Writer<T: SQLModel & Encodable> {
+class Writer<T: CDModel & Encodable> {
 	
 	private let writer = _Writer()
 	
@@ -73,7 +73,7 @@ class Writer<T: SQLModel & Encodable> {
 }
 
 fileprivate protocol _WriterContainer {
-	var values: [(String, Bindable)] { get }
+	var values: [(String, CDBindable)] { get }
 }
 
 fileprivate class _Writer: Encoder {
@@ -85,7 +85,7 @@ fileprivate class _Writer: Encoder {
 		return [:]
 	}
 	
-	var values = [(String, Bindable)]()
+	var values = [(String, CDBindable)]()
 	var currentKey: String?
 	
 	
@@ -157,7 +157,7 @@ fileprivate class _Writer: Encoder {
 			print(String(describing: value))
 			print(String(reflecting: value))
 			
-			if let bindable = value as? Bindable {
+			if let bindable = value as? CDBindable {
 				encoder.values.append((key.stringValue, bindable))
 			} else {
 				assert(encoder.currentKey == nil)
@@ -207,7 +207,7 @@ fileprivate class _Writer: Encoder {
 				fatalError()
 			}
 			
-			if let bind = value as? Bindable {
+			if let bind = value as? CDBindable {
 				encoder.values.append((key, bind))
 			} else {
 				let e = JSONEncoder()

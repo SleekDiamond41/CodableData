@@ -9,7 +9,7 @@
 import Foundation
 
 
-public enum Equality<T>: Rule where T: Bindable & Equatable {
+public enum CDEquality<T>: Rule where T: CDBindable & Equatable {
 	case equal(to: T)
 	case notEqual(to: T)
 	
@@ -32,17 +32,17 @@ public enum Equality<T>: Rule where T: Bindable & Equatable {
 }
 
 
-extension Filter {
+extension CDFilter {
 	
-	public init<T>(_ path: KeyPath<Element, T>, is rule: Equality<T>) where T: Bindable & Equatable {
+	public init<T>(_ path: KeyPath<Element, T>, is rule: CDEquality<T>) where T: CDBindable & Equatable {
 		self.init(path: path, rule: rule)
 	}
 	
-	public func and<T>(_ path: KeyPath<Element, T>, is rule: Equality<T>) -> Filter where T: Bindable & Equatable {
+	public func and<T>(_ path: KeyPath<Element, T>, is rule: CDEquality<T>) -> CDFilter where T: CDBindable & Equatable {
 		return and(path: path, rule: rule)
 	}
 	
-	public func or<T>(_ path: KeyPath<Element, T>, is rule: Equality<T>) -> Filter where T: Bindable & Equatable {
+	public func or<T>(_ path: KeyPath<Element, T>, is rule: CDEquality<T>) -> CDFilter where T: CDBindable & Equatable {
 		return or(path: path, rule: rule)
 	}
 	

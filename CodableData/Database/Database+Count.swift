@@ -10,10 +10,10 @@ import Foundation
 import SQLite3
 
 
-extension Database {
+extension CDDatabase {
 	
-	private static func _count<T>(db: OpaquePointer, _ : T.Type, query: String, bindings: [Bindable]) -> Int where T: Decodable & SQLModel {
-		guard let table = Database._table(db: db, named: T.tableName) else {
+	private static func _count<T>(db: OpaquePointer, _ : T.Type, query: String, bindings: [CDBindable]) -> Int where T: Decodable & CDModel {
+		guard let table = CDDatabase._table(db: db, named: T.tableName) else {
 			print("No such table")
 			return 0
 		}
@@ -52,7 +52,7 @@ extension Database {
 		}
 	}
 	
-	private static func _count<T: Decodable & SQLModel>(db: OpaquePointer, _: T.Type, limit: Int? = nil, page: Int = 1) -> Int {
+	private static func _count<T: Decodable & CDModel>(db: OpaquePointer, _: T.Type, limit: Int? = nil, page: Int = 1) -> Int {
 		var query = ""
 		if let limit = limit {
 			query += "LIMIT \(limit) OFFSET \((page-1) * limit)"
@@ -60,7 +60,7 @@ extension Database {
 		return _count(db: db, T.self, query: query, bindings: [])
 	}
 	
-	private static func _count<T: Decodable & SQLModel>(db: OpaquePointer, _: T.Type, filter: Filter<T>, limit: Int? = nil, page: Int = 1) -> Int {
+	private static func _count<T: Decodable & CDModel>(db: OpaquePointer, _: T.Type, filter: CDFilter<T>, limit: Int? = nil, page: Int = 1) -> Int {
 		var query = filter.query
 		if let limit = limit {
 			query += " LIMIT \(limit) OFFSET \((page-1) * limit)"
@@ -72,29 +72,29 @@ extension Database {
 
 
 //MARK: - Sync
-extension Database {
+extension CDDatabase {
 	
-	public func count<T>(_ : T.Type) -> Int where T: Decodable & SQLModel {
+	public func count<T>(_ : T.Type) -> Int where T: Decodable & CDModel {
 		return sync { (db) -> Int in
-			return Database._count(db: db, T.self)
+			return CDDatabase._count(db: db, T.self)
 		}
 	}
 	
-	public func count<U: Decodable & SQLModel>(_ : U.Type, limit: Int, page: Int = 1) -> Int {
+	public func count<U: Decodable & CDModel>(_ : U.Type, limit: Int, page: Int = 1) -> Int {
 		return sync { db in
-			return Database._count(db: db, U.self, limit: limit, page: page)
+			return CDDatabase._count(db: db, U.self, limit: limit, page: page)
 		}
 	}
 	
-	public func count<U: Decodable & SQLModel>(where filter: Filter<U>) -> Int {
+	public func count<U: Decodable & CDModel>(where filter: CDFilter<U>) -> Int {
 		return sync { db in
-			return Database._count(db: db, U.self, filter: filter)
+			return CDDatabase._count(db: db, U.self, filter: filter)
 		}
 	}
 	
-	public func count<U: Decodable & SQLModel>(where filter: Filter<U>, limit: Int, page: Int = 1) -> Int {
+	public func count<U: Decodable & CDModel>(where filter: CDFilter<U>, limit: Int, page: Int = 1) -> Int {
 		return sync { db in
-			return Database._count(db: db, U.self, filter: filter, limit: limit, page: page)
+			return CDDatabase._count(db: db, U.self, filter: filter, limit: limit, page: page)
 		}
 	}
 	
@@ -102,29 +102,29 @@ extension Database {
 
 
 //MARK: - Async
-extension Database {
+extension CDDatabase {
 	
-	public func count<U: Decodable & SQLModel>(_ : U.Type, _ handler: @escaping (Int) -> Void) {
+	public func count<U: Decodable & CDModel>(_ : U.Type, _ handler: @escaping (Int) -> Void) {
 		async { (db) in
-			handler(Database._count(db: db, U.self))
+			handler(CDDatabase._count(db: db, U.self))
 		}
 	}
 	
-	public func count<U: Decodable & SQLModel>(_ : U.Type, limit: Int, page: Int = 1, _ handler: @escaping (Int) -> Void) {
+	public func count<U: Decodable & CDModel>(_ : U.Type, limit: Int, page: Int = 1, _ handler: @escaping (Int) -> Void) {
 		async { (db) in
-			handler(Database._count(db: db, U.self, limit: limit, page: page))
+			handler(CDDatabase._count(db: db, U.self, limit: limit, page: page))
 		}
 	}
 	
-	public func count<U: Decodable & SQLModel>(where filter: Filter<U>, _ handler: @escaping (Int) -> Void) {
+	public func count<U: Decodable & CDModel>(where filter: CDFilter<U>, _ handler: @escaping (Int) -> Void) {
 		async { (db) in
-			handler(Database._count(db: db, U.self, filter: filter))
+			handler(CDDatabase._count(db: db, U.self, filter: filter))
 		}
 	}
 	
-	public func count<U: Decodable & SQLModel>(where filter: Filter<U>, limit: Int, page: Int = 1, _ handler: @escaping (Int) -> Void) {
+	public func count<U: Decodable & CDModel>(where filter: CDFilter<U>, limit: Int, page: Int = 1, _ handler: @escaping (Int) -> Void) {
 		async { (db) in
-			handler(Database._count(db: db, U.self, filter: filter, limit: limit, page: page))
+			handler(CDDatabase._count(db: db, U.self, filter: filter, limit: limit, page: page))
 		}
 	}
 	

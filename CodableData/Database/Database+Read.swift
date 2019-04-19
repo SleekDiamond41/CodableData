@@ -9,10 +9,10 @@
 import Foundation
 
 
-extension Database {
+extension CDDatabase {
 	
-	static func read<T>(db: OpaquePointer, _ : T.Type, query: String, bindings: [Bindable]) -> [T] where T: Decodable & SQLModel {
-		guard let table = Database._table(db: db, named: T.tableName) else {
+	static func read<T>(db: OpaquePointer, _ : T.Type, query: String, bindings: [CDBindable]) -> [T] where T: Decodable & CDModel {
+		guard let table = CDDatabase._table(db: db, named: T.tableName) else {
 			print("No such table")
 			return []
 		}
@@ -54,7 +54,7 @@ extension Database {
 		}
 	}
 	
-	static func get<T: Decodable & SQLModel>(db: OpaquePointer, _: T.Type, limit: Int? = nil, page: Int = 1) -> [T] {
+	static func get<T: Decodable & CDModel>(db: OpaquePointer, _: T.Type, limit: Int? = nil, page: Int = 1) -> [T] {
 		var query = ""
 		if let limit = limit {
 			query += "LIMIT \(limit) OFFSET \((page-1) * limit)"
@@ -62,7 +62,7 @@ extension Database {
 		return read(db: db, T.self, query: query, bindings: [])
 	}
 	
-	static func get<T: Decodable & SQLModel>(db: OpaquePointer, _: T.Type, filter: Filter<T>) -> [T] {
+	static func get<T: Decodable & CDModel>(db: OpaquePointer, _: T.Type, filter: CDFilter<T>) -> [T] {
 		return read(db: db, T.self, query: filter.query, bindings: filter.bindings)
 	}
 	
@@ -70,29 +70,34 @@ extension Database {
 
 	
 //MARK: - Sync
-extension Database {
+extension CDDatabase {
 	
-	public func get<U: Decodable & SQLModel>(_ : U.Type) -> [U] {
+	public func get<U, V>(_ : U.Type, id: V) -> U? where U: Decodable & CDModel & CDFilterable, U.PrimaryKey == V {
+		let filter = CDFilter(\U.id, is: .equal(to: id)).limit(1)
+		return get(with: filter).first
+	}
+	
+	public func get<U: Decodable & CDModel>(_ : U.Type) -> [U] {
 		return sync { db in
-			return Database.get(db: db, U.self)
+			return CDDatabase.get(db: db, U.self)
 		}
 	}
 	
-	public func get<U: Decodable & SQLModel>(_ : U.Type, limit: Int, page: Int = 1) -> [U] {
+	public func get<U: Decodable & CDModel>(_ : U.Type, limit: Int, page: Int = 1) -> [U] {
 		return sync { db in
-			return Database.get(db: db, U.self, limit: limit, page: page)
+			return CDDatabase.get(db: db, U.self, limit: limit, page: page)
 		}
 	}
 	
-	public func get<U: Decodable & SQLModel>(with filter: Filter<U>) -> [U] {
+	public func get<U: Decodable & CDModel>(with filter: CDFilter<U>) -> [U] {
 		return sync { db in
-			return Database.get(db: db, U.self, filter: filter)
+			return CDDatabase.get(db: db, U.self, filter: filter)
 		}
 	}
 	
-	public func get<U: Decodable & SQLModel>(sorting: SortRule<U>) -> [U] {
+	public func get<U: Decodable & CDModel>(sorting: CDSortRule<U>) -> [U] {
 		return sync { db in
-			return Database.get(db: db, U.self, filter: Filter(sorting))
+			return CDDatabase.get(db: db, U.self, filter: CDFilter(sorting))
 		}
 	}
 	
@@ -100,29 +105,36 @@ extension Database {
 
 	
 //MARK: - Async
-extension Database {
+extension CDDatabase {
 	
-	public func get<U: Decodable & SQLModel>(_ : U.Type, _ handler: @escaping ([U]) -> Void) {
-		async { (db) in
-			handler(Database.get(db: db, U.self))
+	public func get<U, V>(_ : U.Type, id: V, _ handler: @escaping (U?) -> Void) where U: Decodable & CDModel & CDFilterable, U.PrimaryKey == V {
+		let filter = CDFilter(\U.id, is: .equal(to: id)).limit(1)
+		get(with: filter) {
+			handler($0.first)
 		}
 	}
 	
-	public func get<U: Decodable & SQLModel>(_ : U.Type, limit: Int, page: Int = 1, _ handler: @escaping ([U]) -> Void) {
+	public func get<U: Decodable & CDModel>(_ : U.Type, _ handler: @escaping ([U]) -> Void) {
 		async { (db) in
-			handler(Database.get(db: db, U.self, limit: limit, page: page))
+			handler(CDDatabase.get(db: db, U.self))
 		}
 	}
 	
-	public func get<U: Decodable & SQLModel>(with filter: Filter<U>, _ handler: @escaping ([U]) -> Void) {
+	public func get<U: Decodable & CDModel>(_ : U.Type, limit: Int, page: Int = 1, _ handler: @escaping ([U]) -> Void) {
 		async { (db) in
-			handler(Database.get(db: db, U.self, filter: filter))
+			handler(CDDatabase.get(db: db, U.self, limit: limit, page: page))
 		}
 	}
 	
-	public func get<U: Decodable & SQLModel>(sorting: SortRule<U>, _ handler: @escaping ([U]) -> Void) {
+	public func get<U: Decodable & CDModel>(with filter: CDFilter<U>, _ handler: @escaping ([U]) -> Void) {
 		async { (db) in
-			handler(Database.get(db: db, U.self, filter: Filter(sorting)))
+			handler(CDDatabase.get(db: db, U.self, filter: filter))
+		}
+	}
+	
+	public func get<U: Decodable & CDModel>(sorting: CDSortRule<U>, _ handler: @escaping ([U]) -> Void) {
+		async { (db) in
+			handler(CDDatabase.get(db: db, U.self, filter: CDFilter(sorting)))
 		}
 	}
 	

@@ -10,7 +10,7 @@ import Foundation
 
 
 //MARK: - Get Existing
-extension Database {
+extension CDDatabase {
 	
 	static func _table(db: OpaquePointer, named name: String) -> Table? {
 		var s = Statement("PRAGMA TABLE_INFO([\(name)])")
@@ -49,13 +49,13 @@ extension Database {
 	
 	func table(_ name: String) -> Table? {
 		return sync {
-			return Database._table(db: $0, named: name)
+			return CDDatabase._table(db: $0, named: name)
 		}
 	}
 	
 	func table(_ name: String, _ handler: @escaping (Table?) -> Void) {
 		async {
-			handler(Database._table(db: $0, named: name))
+			handler(CDDatabase._table(db: $0, named: name))
 		}
 	}
 	
@@ -63,21 +63,21 @@ extension Database {
 
 
 //MARK: - Create
-extension Database {
+extension CDDatabase {
 	
 	static func _create(db: OpaquePointer, _ table: Table) {
-		Database._execute(db: db, table.query(for: .create))
+		CDDatabase._execute(db: db, table.query(for: .create))
 	}
 	
 	func create(_ table: Table) {
 		sync { (db) in
-			Database._create(db: db, table)
+			CDDatabase._create(db: db, table)
 		}
 	}
 	
 	func create(_ table: Table, _ handler: @escaping () -> Void) {
 		async { (db) in
-			Database._create(db: db, table)
+			CDDatabase._create(db: db, table)
 			handler()
 		}
 	}
@@ -86,7 +86,7 @@ extension Database {
 
 
 //MARK: - Drop
-extension Database {
+extension CDDatabase {
 	
 	static func _drop(db: OpaquePointer, _ table: Table) {
 		_execute(db: db, table.query(for: .drop))
@@ -94,13 +94,13 @@ extension Database {
 	
 	func drop(_ table: Table) {
 		sync { (db) in
-			Database._drop(db: db, table)
+			CDDatabase._drop(db: db, table)
 		}
 	}
 	
 	func drop(_ table: Table, _ handler: @escaping () -> Void) {
 		async { (db) in
-			Database._drop(db: db, table)
+			CDDatabase._drop(db: db, table)
 			handler()
 		}
 	}

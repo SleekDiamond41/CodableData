@@ -9,7 +9,7 @@
 import SQLite3
 
 	
-public enum Status {
+enum Status {
 	case ok
 	case done
 	case row

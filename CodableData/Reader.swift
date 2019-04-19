@@ -10,7 +10,7 @@ import Foundation
 import SQLite3
 
 
-public struct Person: SQLModel, Equatable {
+public struct Person: CDModel, Equatable {
 	public let id: UUID
 	public let name: String
 	public let nickName: String?

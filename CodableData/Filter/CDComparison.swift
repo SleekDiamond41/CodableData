@@ -9,7 +9,7 @@
 import Foundation
 
 
-public enum Comparison<T>: Rule where T: Bindable & Comparable {
+public enum CDComparison<T>: Rule where T: CDBindable & Comparable {
 	case greater(than: T)
 	case less(than: T)
 	case between(T, and: T)
@@ -32,17 +32,17 @@ public enum Comparison<T>: Rule where T: Bindable & Comparable {
 }
 
 
-extension Filter {
+extension CDFilter {
 	
-	public init<T>(_ path: KeyPath<Element, T>, is rule: Comparison<T>) where T: Bindable & Comparable {
+	public init<T>(_ path: KeyPath<Element, T>, is rule: CDComparison<T>) where T: CDBindable & Comparable {
 		self.init(path: path, rule: rule)
 	}
 	
-	public func and<T>(_ path: KeyPath<Element, T>, is rule: Comparison<T>) -> Filter where T: Bindable & Comparable {
+	public func and<T>(_ path: KeyPath<Element, T>, is rule: CDComparison<T>) -> CDFilter where T: CDBindable & Comparable {
 		return and(path: path, rule: rule)
 	}
 	
-	public func or<T>(_ path: KeyPath<Element, T>, is rule: Comparison<T>) -> Filter where T: Bindable & Comparable {
+	public func or<T>(_ path: KeyPath<Element, T>, is rule: CDComparison<T>) -> CDFilter where T: CDBindable & Comparable {
 		return or(path: path, rule: rule)
 	}
 	

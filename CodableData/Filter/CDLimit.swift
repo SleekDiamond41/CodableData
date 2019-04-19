@@ -9,7 +9,7 @@
 import Foundation
 
 
-public struct Limit {
+public struct CDLimit {
 	var query: String {
 		return "LIMIT \(limit) OFFSET \(limit * (page-1))"
 	}
