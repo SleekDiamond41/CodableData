@@ -15,7 +15,7 @@ protocol Rule {
 }
 
 
-public struct CDFilter<Element: CDFilterable> {
+public struct CDFilter<Element> where Element: CDFilterable {
 	
 	var query: String {
 		var result = ""
@@ -53,13 +53,13 @@ public struct CDFilter<Element: CDFilterable> {
 	
 	public func and(_ filter: CDFilter) -> CDFilter {
 		var copy = self
-		copy._query += "(" + _query + ") AND (" + filter._query + ")"
+		copy._query = "(" + _query + ") AND (" + filter._query + ")"
 		return copy
 	}
 	
 	public func or(_ filter: CDFilter) -> CDFilter {
 		var copy = self
-		copy._query += "(" + _query + ") OR (" + filter._query + ")"
+		copy._query = "(" + _query + ") OR (" + filter._query + ")"
 		return copy
 	}
 	

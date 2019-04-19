@@ -11,7 +11,7 @@ import Foundation
 
 extension CDDatabase {
 	
-	static func read<T>(db: OpaquePointer, _ : T.Type, query: String, bindings: [CDBindable]) -> [T] where T: Decodable & CDModel {
+	static func get<T>(_ db: OpaquePointer, _ : T.Type, query: String, bindings: [CDBindable]) -> [T] where T: Decodable & CDModel {
 		guard let table = CDDatabase._table(db: db, named: T.tableName) else {
 			print("No such table")
 			return []
@@ -54,16 +54,16 @@ extension CDDatabase {
 		}
 	}
 	
-	static func get<T: Decodable & CDModel>(db: OpaquePointer, _: T.Type, limit: Int? = nil, page: Int = 1) -> [T] {
+	private static func get<T: Decodable & CDModel>(db: OpaquePointer, _: T.Type, limit: Int? = nil, page: Int = 1) -> [T] {
 		var query = ""
 		if let limit = limit {
 			query += "LIMIT \(limit) OFFSET \((page-1) * limit)"
 		}
-		return read(db: db, T.self, query: query, bindings: [])
+		return get(db, T.self, query: query, bindings: [])
 	}
 	
-	static func get<T: Decodable & CDModel>(db: OpaquePointer, _: T.Type, filter: CDFilter<T>) -> [T] {
-		return read(db: db, T.self, query: filter.query, bindings: filter.bindings)
+	private static func get<U>(db: OpaquePointer, _: U.Type, filter: CDFilter<U>) -> [U] where U: CDModel & Decodable {
+		return get(db, U.self, query: filter.query, bindings: filter.bindings)
 	}
 	
 }
