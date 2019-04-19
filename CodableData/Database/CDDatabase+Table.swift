@@ -12,8 +12,8 @@ import Foundation
 //MARK: - Get Existing
 extension CDDatabase {
 	
-	static func _table(db: OpaquePointer, named name: String) -> Table? {
-		var s = Statement("PRAGMA TABLE_INFO([\(name)])")
+	static func table(_ db: OpaquePointer, named name: String) -> Table? {
+		var s = Statement("PRAGMA TABLE_INFO(\(Table.name(name)))")
 		
 		do {
 			
@@ -37,7 +37,7 @@ extension CDDatabase {
 			}
 			
 			if columns.count > 0 {
-				return Table(name: "[" + name + "]", columns: columns)
+				return Table(name: name, columns: columns)
 			} else {
 				return nil
 			}
@@ -49,13 +49,13 @@ extension CDDatabase {
 	
 	func table(_ name: String) -> Table? {
 		return sync {
-			return CDDatabase._table(db: $0, named: name)
+			return CDDatabase.table($0, named: name)
 		}
 	}
 	
 	func table(_ name: String, _ handler: @escaping (Table?) -> Void) {
 		async {
-			handler(CDDatabase._table(db: $0, named: name))
+			handler(CDDatabase.table($0, named: name))
 		}
 	}
 	
@@ -65,19 +65,19 @@ extension CDDatabase {
 //MARK: - Create
 extension CDDatabase {
 	
-	static func _create(db: OpaquePointer, _ table: Table) {
+	static func create(db: OpaquePointer, _ table: Table) {
 		CDDatabase._execute(db: db, table.query(for: .create))
 	}
 	
 	func create(_ table: Table) {
 		sync { (db) in
-			CDDatabase._create(db: db, table)
+			CDDatabase.create(db: db, table)
 		}
 	}
 	
 	func create(_ table: Table, _ handler: @escaping () -> Void) {
 		async { (db) in
-			CDDatabase._create(db: db, table)
+			CDDatabase.create(db: db, table)
 			handler()
 		}
 	}
@@ -88,19 +88,20 @@ extension CDDatabase {
 //MARK: - Drop
 extension CDDatabase {
 	
-	static func _drop(db: OpaquePointer, _ table: Table) {
-		_execute(db: db, table.query(for: .drop))
+	static func dropTable(named name: String, db: OpaquePointer) {
+		let t = Table(name: name, columns: [])
+		_execute(db: db, t.query(for: .drop))
 	}
 	
-	func drop(_ table: Table) {
+	public func dropTable<T>(for _: T.Type) where T: CDModel {
 		sync { (db) in
-			CDDatabase._drop(db: db, table)
+			CDDatabase.dropTable(named: T.tableName, db: db)
 		}
 	}
 	
-	func drop(_ table: Table, _ handler: @escaping () -> Void) {
+	public func dropTable<T>(for _: T.Type, _ handler: @escaping () -> Void) where T: CDModel {
 		async { (db) in
-			CDDatabase._drop(db: db, table)
+			CDDatabase.dropTable(named: T.tableName, db: db)
 			handler()
 		}
 	}

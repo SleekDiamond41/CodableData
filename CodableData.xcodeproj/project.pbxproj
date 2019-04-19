@@ -19,7 +19,7 @@
 		4C4AD99522505B5500EC174A /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD99422505B5500EC174A /* Table.swift */; };
 		4C4AD999225129D100EC174A /* Unbindable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD998225129D100EC174A /* Unbindable.swift */; };
 		4C4AD99B2251380500EC174A /* Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD99A2251380500EC174A /* Reader.swift */; };
-		4C4AD99F22516E9A00EC174A /* CDDatabase+Read.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD99E22516E9A00EC174A /* CDDatabase+Read.swift */; };
+		4C4AD99F22516E9A00EC174A /* CDDatabase+Get.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD99E22516E9A00EC174A /* CDDatabase+Get.swift */; };
 		4C4AD9A1225170DE00EC174A /* CDDatabase+Replace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9A0225170DE00EC174A /* CDDatabase+Replace.swift */; };
 		4C4AD9A32251718000EC174A /* CDDatabase+Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9A22251718000EC174A /* CDDatabase+Table.swift */; };
 		4C4AD9A52253E0AA00EC174A /* CDFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4AD9A42253E0AA00EC174A /* CDFilter.swift */; };
@@ -61,7 +61,7 @@
 		4C4AD99422505B5500EC174A /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		4C4AD998225129D100EC174A /* Unbindable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unbindable.swift; sourceTree = "<group>"; };
 		4C4AD99A2251380500EC174A /* Reader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reader.swift; sourceTree = "<group>"; };
-		4C4AD99E22516E9A00EC174A /* CDDatabase+Read.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDDatabase+Read.swift"; sourceTree = "<group>"; };
+		4C4AD99E22516E9A00EC174A /* CDDatabase+Get.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDDatabase+Get.swift"; sourceTree = "<group>"; };
 		4C4AD9A0225170DE00EC174A /* CDDatabase+Replace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDDatabase+Replace.swift"; sourceTree = "<group>"; };
 		4C4AD9A22251718000EC174A /* CDDatabase+Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDDatabase+Table.swift"; sourceTree = "<group>"; };
 		4C4AD9A42253E0AA00EC174A /* CDFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CDFilter.swift; sourceTree = "<group>"; };
@@ -163,7 +163,7 @@
 				4C4AD98A22502CA100EC174A /* Connection.swift */,
 				4C4AD98E2250445600EC174A /* CDDatabase.swift */,
 				4C4AD9B52255291700EC174A /* CDDatabase+Count.swift */,
-				4C4AD99E22516E9A00EC174A /* CDDatabase+Read.swift */,
+				4C4AD99E22516E9A00EC174A /* CDDatabase+Get.swift */,
 				4C4AD9A0225170DE00EC174A /* CDDatabase+Replace.swift */,
 				4C4AD9A22251718000EC174A /* CDDatabase+Table.swift */,
 				4C4AD9BC2255386600EC174A /* CDDatabase+Column.swift */,
@@ -309,7 +309,7 @@
 				4C8C9C5E22695F440064CBB4 /* CDBindable.swift in Sources */,
 				4C99701D22591B4300043C18 /* CDDatabase+Delete.swift in Sources */,
 				4C4AD98F2250445600EC174A /* CDDatabase.swift in Sources */,
-				4C4AD99F22516E9A00EC174A /* CDDatabase+Read.swift in Sources */,
+				4C4AD99F22516E9A00EC174A /* CDDatabase+Get.swift in Sources */,
 				4C4AD9BF2255400000EC174A /* Configuration.swift in Sources */,
 				4C4AD9B022550BBF00EC174A /* CDEquality.swift in Sources */,
 				4C4AD9B42255114000EC174A /* StringComparison.swift in Sources */,

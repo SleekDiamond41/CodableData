@@ -1,8 +1,16 @@
 
 import Foundation
-import CodableData
 import PlaygroundSupport
+//import CodableData
 
+
+struct Foo {
+	struct Bar {}
+}
+
+print(String(describing: Foo.Bar.self))
+print(String(reflecting: Foo.Bar.self))
+print("\(Foo.Bar.self)")
 
 
 let shared = playgroundSharedDataDirectory

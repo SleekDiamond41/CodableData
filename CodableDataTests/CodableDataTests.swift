@@ -9,7 +9,7 @@
 import XCTest
 @testable import CodableData
 
-struct Friend: SQLModel {
+struct Friend: Codable, CDUUIDModel {
 	let id: UUID
 	let name: String
 	let hair: String
@@ -24,7 +24,7 @@ struct Friend: SQLModel {
 	
 	typealias FilterKey = CodingKeys
 	
-	static func key<T>(for path: KeyPath<Friend, T>) -> Friend.CodingKeys where T : Bindable {
+	static func key<T>(for path: KeyPath<Friend, T>) -> Friend.CodingKeys where T : CDBindable {
 		switch path {
 		case \Friend.id: return .id
 		case \Friend.name: return .name
@@ -37,10 +37,14 @@ struct Friend: SQLModel {
 }
 
 extension Person {
-	struct Name: UUIDModel {
+	struct Name: CDUUIDModel {
+		static var tableName: String {
+			return "[Person].Name"
+		}
+		
 		let id: UUID
 		
-		struct Pronoun: UUIDModel {
+		struct Pronoun: CDUUIDModel {
 			let id: UUID
 		}
 	}
@@ -49,37 +53,30 @@ extension Person {
 
 class SQLTests: XCTestCase {
 	
-	var dir: URL {
-		let dirs = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
-		let appSupport = dirs.first!
-		return appSupport.appendingPathComponent("SQL")
-	}
+	private(set) lazy var db = CDDatabase(CDDatabase.Configuration(filename: "Testing"))
 	
-	private(set) lazy var db = Database(Database.Configuration(filename: "Testing"))
-	
-	func testFormatString() {
-		print(Person.tableName)
-		print(Person.Name.tableName)
-		print(Person.Name.Pronoun.tableName)
+	func testFormatString() {		
+		let a = Table(name: "Person", columns: [])
+		XCTAssertEqual(a.name, "\"Person\"")
 		
-		let a = "Person"
-		let b = a.sqlFormatted()
-		XCTAssertEqual(b, "[Person]")
+		let b = Table(name: "PersonName", columns: [])
+		XCTAssertEqual(b.name, "\"PersonName\"")
 		
-		let c = "PersonName"
-		let d = c.sqlFormatted()
-		XCTAssertEqual(d, "[PersonName]")
+		let c = Table(name: "Person.Name", columns: [])
+		XCTAssertEqual(c.name, "\"Person.Name\"")
 		
-		let e = "Person.Name"
-		let f = e.sqlFormatted()
-		XCTAssertEqual(f, "[Person.Name]")
+		let d = Table(name: "[Person].Name", columns: [Table.Column(name: "id", type: .text)])
+		XCTAssertEqual(d.name, "\"[Person].Name\"")
+		
+		db.create(d)
+		
 	}
 	
 }
 
 
-struct Game: SQLModel, Equatable {
-	static func key<T>(for path: KeyPath<Game, T>) -> FilterKey where T : Bindable {
+struct Game: CDUUIDModel, Equatable {
+	static func key<T>(for path: KeyPath<Game, T>) -> FilterKey where T : CDBindable {
 		switch path {
 		case \Game.id: return .id
 		case \Game.name: return .name

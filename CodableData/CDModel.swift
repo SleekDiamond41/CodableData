@@ -10,14 +10,31 @@ import Foundation
 
 
 public protocol CDModel {
-	associatedtype PrimaryKey: CDBindable & Equatable
+	associatedtype PrimaryKey: Equatable & CDBindable
 	var id: PrimaryKey { get }
+	
+	
+	/// The name of the table to which this object should be saved.
+	///
+	/// - Note: CodableData surrounds the given name in double quotes ("\"") so capitalization, spaces and some punctuation marks (-.+!?) are valid characters. See https://stackoverflow.com/a/3694305/9626155 for more information.
+	///
+	/// Remember namespacing when implementing a custom tableName. String(reflecting: MyModel.self), String(describing: MyModel.self) and "\(MyModel.self)" all return the String name of the object, but the latter two return unique the name of the type within its own scope, ignoring namespacing. For example:
+	///
+	///     struct Foo {
+	///       struct Bar {}
+	///     }
+	///
+	///     String(reflecting: Foo.Bar.self) == "Foo.Bar.Type"
+	///     String(describing: Foo.Bar.self) == "Bar"
+	///     "\(Foo.Bar.self)" == "Bar"
+	///
+	/// CodableData's default behavior is to use the former and remove ".type" from the end.
 	static var tableName: String { get }
 }
 
 extension CDModel {
 	public static var tableName: String {
-		return String(reflecting: Self.self).sqlFormatted()
+		return String(reflecting: Self.self).replacingOccurrences(of: ".type", with: "")
 	}
 }
 
@@ -25,7 +42,8 @@ public protocol CDUUIDModel: CDModel where PrimaryKey == UUID {
 	var id: UUID { get }
 }
 
-public protocol CDRowModel: CDModel where PrimaryKey == Int64? {
+//TODO: implement using row ids instead of UUIDs
+protocol CDRowModel: CDModel where PrimaryKey == Int64? {
 	var id: Int64? { get }
 }
 
@@ -37,8 +55,8 @@ extension Paper: CDFilterable {
 	enum CodingKeys: String, CodingKey {
 		case id
 	}
-	typealias FilterKey = CodingKeys
-	static func key<T>(for path: KeyPath<Paper, T>) -> Paper.FilterKey where T : CDBindable {
+	
+	static func key<T>(for path: KeyPath<Paper, T>) -> CodingKeys where T : CDBindable {
 		switch path {
 		case \Paper.id:
 			return .id
@@ -46,30 +64,6 @@ extension Paper: CDFilterable {
 			fatalError("Unknown key path")
 		}
 	}
-}
-
-
-
-extension String {
-	
-	func sqlFormatted() -> String {
-		var result = self
-		
-		if result.hasSuffix(".type") {
-			var i = result.endIndex
-			result.formIndex(&i, offsetBy: -5)
-			result.removeSubrange(i...)
-		}
-		
-		if result.hasPrefix("__lldb_expr_") {
-			let range = result.range(of: ".")!
-			result.removeSubrange(result.startIndex...range.lowerBound)
-			result = "PlaygroundModel." + result
-		}
-		
-		return result
-	}
-	
 }
 
 

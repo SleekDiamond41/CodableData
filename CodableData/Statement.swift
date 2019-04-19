@@ -38,7 +38,6 @@ extension Statement {
 	@discardableResult
 	func step() throws -> Status {
 		assert(p != nil)
-		print("Stepping query:\n", query, "\n")
 		return Status(sqlite3_step(p))
 	}
 	

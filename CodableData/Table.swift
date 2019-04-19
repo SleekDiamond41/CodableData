@@ -14,6 +14,10 @@ struct Table {
 	let name: String
 	let columns: [Column]
 	
+	static func name(_ str: String) -> String {
+		return str.sqlFormatted()
+	}
+	
 	func query(for action: Action) -> String {
 		switch action {
 		case .create:
@@ -25,6 +29,11 @@ struct Table {
 		case .drop:
 			return "DROP TABLE IF EXISTS \(name);"
 		}
+	}
+	
+	init(name: String, columns: [Column]) {
+		self.name = Table.name(name)
+		self.columns = columns
 	}
 	
 	enum Action {
@@ -54,4 +63,40 @@ struct Table {
 			return name + " " + type.rawValue + (isPrimaryKey ? " PRIMARY KEY NOT NULL" : "")
 		}
 	}
+}
+
+
+extension String {
+	
+	fileprivate func sqlFormatted() -> String {
+		var result = self
+		
+		// Playgrounds use this prefix followed by some numbers then "." THEN the object name. Remove prefix so tables will be named consistently across multiple executions
+		if result.hasPrefix("__lldb_expr_") {
+			let range = result.range(of: ".")!
+			result.removeSubrange(result.startIndex...range.lowerBound)
+		}
+		
+		// using String(reflecting: Model.self) returns "Model.type", so remove the ".type" if it's there
+//		if result.hasSuffix(".type") {
+//			var i = result.endIndex
+//			result.formIndex(&i, offsetBy: -5)
+//			result.removeSubrange(i...)
+//		}
+		
+		// remove leading spaces
+		while result.hasPrefix(" ") {
+			result.removeFirst()
+		}
+		
+		// remove trailing spaces
+		while result.hasSuffix(" ") {
+			result.removeLast()
+		}
+		
+		// convert existing double quotes to single quotes, surround the whole thing with double quotes so SQLite will
+		return "\"" + result.replacingOccurrences(of: "\"", with: "'").replacingOccurrences(of: "\"", with: "'") + "\""
+		
+	}
+	
 }

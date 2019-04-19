@@ -83,7 +83,7 @@ class TableTests: SQLTests {
 }
 
 
-fileprivate struct TableTest: SQLModel {
+fileprivate struct TableTest: CDModel {
 	static let table: Table = {
 		return Table(name: "\(TableTest.self)".lowercased(), columns: [
 			Table.Column(name: "id", type: .text),
@@ -117,7 +117,7 @@ fileprivate struct TableTest: SQLModel {
 	
 	typealias FilterKey = CodingKeys
 	
-	static func key<T>(for path: KeyPath<TableTest, T>) -> TableTest.CodingKeys where T : Bindable {
+	static func key<T>(for path: KeyPath<TableTest, T>) -> TableTest.CodingKeys where T : CDBindable {
 		switch path {
 //		case \TableTest.id:
 //			return .id

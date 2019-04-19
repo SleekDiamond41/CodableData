@@ -36,6 +36,20 @@ public struct CDFilter<Element> where Element: CDFilterable {
 	private var limit: CDLimit?
 	private var sort: CDSortRule<Element>?
 	
+	static func query(_ q: String, sort: CDSortRule<Element>?, limit: CDLimit?) -> String {
+		var result = ""
+		if q.count > 0 {
+			result += "WHERE " + q
+		}
+		if let sort = sort {
+			result += (result.count > 0 ? " " : "") + sort.query
+		}
+		if let limit = limit {
+			result += (result.count > 0 ? " " : "") + limit.query
+		}
+		return result
+	}
+	
 	
 	init(query: String, bindings: [CDBindable], limit: CDLimit?, sort: CDSortRule<Element>?) {
 		self._query = query

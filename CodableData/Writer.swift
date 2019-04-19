@@ -10,20 +10,20 @@ import Foundation
 
 extension Table.Column {
 	init(name: String, type: CDValue) {
+		let t: ColumnType
 		switch type {
 		case .text:
-			self.type = .text
+			t = .text
 		case .integer:
-			self.type = .integer
+			t = .integer
 		case .double:
-			self.type = .double
+			t = .double
 		case .blob:
-			self.type = .blob
+			t = .blob
 		case .null:
-			self.type = .integer
+			t = .integer
 		}
-		self.name = name
-		self.isPrimaryKey = name == "id"
+		self.init(name: name, type: t)
 	}
 }
 
@@ -37,7 +37,7 @@ class Writer<T: CDModel & Encodable> {
 	}
 	
 	func tableDefinition() -> Table {
-		return Table(name: "[" + T.tableName + "]", columns:
+		return Table(name: Table.name(T.tableName), columns:
 			writer.values.map {
 				Table.Column(name: $0.0, type: $0.1.bindingValue)
 			}
@@ -153,13 +153,10 @@ fileprivate class _Writer: Encoder {
 		func encode<T>(_ value: T, forKey key: Key) throws where T : Encodable {
 //			let i = index(for: key)
 			
-			print("Encoding '\(value)' of type '\(T.self)' for '\(key.stringValue)'")
-			print(String(describing: value))
-			print(String(reflecting: value))
-			
 			if let bindable = value as? CDBindable {
 				encoder.values.append((key.stringValue, bindable))
 			} else {
+				// value is likely an enum, encode its RawValue
 				assert(encoder.currentKey == nil)
 				encoder.currentKey = key.stringValue
 				try value.encode(to: encoder)
@@ -199,12 +196,11 @@ fileprivate class _Writer: Encoder {
 		}
 		
 		mutating func encode<T>(_ value: T) throws where T : Encodable {
-			print("Encodable")
 			defer {
 				encoder.currentKey = nil
 			}
 			guard let key = encoder.currentKey else {
-				fatalError()
+				preconditionFailure("Expected to have a key to encode value '\(value)'")
 			}
 			
 			if let bind = value as? CDBindable {
