@@ -95,7 +95,7 @@ extension String {
 		}
 		
 		// convert existing double quotes to single quotes, surround the whole thing with double quotes so SQLite will
-		return "\"" + result.replacingOccurrences(of: "\"", with: "'").replacingOccurrences(of: "\"", with: "'") + "\""
+		return "\"" + result.replacingOccurrences(of: "\"", with: "'") + "\""
 		
 	}
 	

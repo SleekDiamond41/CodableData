@@ -10,7 +10,6 @@ import Foundation
 import SQLite3
 
 
-
 /// A value that can be bound into a SQLite statement
 public enum CDValue {
 	case text(String)

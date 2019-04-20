@@ -9,6 +9,10 @@
 import Foundation
 import SQLite3
 
+enum UnbindError: Error {
+	case nilFound
+}
+
 
 protocol Unbindable {
 	static func unbind(from s: Statement, at index: Int32!) throws -> Self

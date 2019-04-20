@@ -56,7 +56,7 @@ class Reader {
 		return try T(from: reader)
 	}
 	
-	func read<T: Decodable>(_ : T.Type, s: Statement, _ table: Table) throws -> T {
+	func read<T>(_ : T.Type, s: Statement, _ table: Table) throws -> T where T: Decodable {
 		let r = _Reader(s, table)
 		return try T(from: r)
 	}
@@ -99,6 +99,8 @@ fileprivate class _Reader: Decoder {
 		var codingPath: [CodingKey] = []
 		var allKeys: [Key] = []
 		
+		private var values: [String: Decodable] = [:]
+		
 		let decoder: _Reader
 		
 		init(_ decoder: _Reader) {
@@ -118,22 +120,40 @@ fileprivate class _Reader: Decoder {
 		}
 		
 		func decodeNil(forKey key: Key) throws -> Bool {
-			guard index(for: key) != nil else {
+			guard let index = index(for: key) else {
 				return true
 			}
+			
+			let type = ColumnType(sqlite3_column_type(decoder.s.p, index))
+			return type == nil
+			
+//			do {
+//				//FIXME: need a way to check for nil values before knowing what I'm supposed to convert it to
+//				_ = try Double.unbind(from: decoder.s, at: index)
+//				return false
+//
+//			} catch {
+//				return true
+//			}
+			
+//			return 0.0 == (try Double.unbind(from: decoder.s, at: index))
 //			ColumnType(String(cString: sqlite3_column_decltype(s.p, i)))
-			return false
+//			return false
 		}
 		
 		func decode<T>(_ type: T.Type, forKey key: Key) throws -> T where T : Decodable {
 			let i = index(for: key)
 			
-			if let U = T.self as? Unbindable.Type {
-				return try U.unbind(from: decoder.s, at: i) as! T
-			} else {
-				assert(decoder.currentColumn == nil)
-				decoder.currentColumn = i
-				return try T(from: decoder)
+			do {
+				if let U = T.self as? Unbindable.Type {
+					return try U.unbind(from: decoder.s, at: i) as! T
+				} else {
+					assert(decoder.currentColumn == nil)
+					decoder.currentColumn = i
+					return try T(from: decoder)
+				}
+			} catch {
+				preconditionFailure(key.stringValue + ": " + String(reflecting: error))
 			}
 		}
 		

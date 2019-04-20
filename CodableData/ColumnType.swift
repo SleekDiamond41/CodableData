@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SQLite3
 
 
 enum ColumnType: String {
@@ -14,6 +15,25 @@ enum ColumnType: String {
 	case integer = "INTEGER"
 	case double = "FLOAT"
 	case blob = ""
+}
+
+extension ColumnType {
+	
+	init?(_ value: Int32) {
+		switch value {
+		case SQLITE3_TEXT, SQLITE_TEXT:
+			self = .text
+		case SQLITE_INTEGER:
+			self = .integer
+		case SQLITE_FLOAT:
+			self = .double
+		case SQLITE_BLOB:
+			self = .blob
+		default:
+			print(value)
+			return nil
+		}
+	}
 }
 
 

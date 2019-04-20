@@ -11,7 +11,7 @@ import Foundation
 
 extension CDDatabase {
 	private static func delete<T>(db: OpaquePointer, _ value: T) where T: CDModel & Encodable {
-		var s = Statement("DELETE FROM [\(Table.name(T.tableName))] WHERE id = ?")
+		var s = Statement("DELETE FROM \(Table.name(T.tableName)) WHERE id = ?")
 		
 		do {
 			try s.prepare(in: db)

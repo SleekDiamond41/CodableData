@@ -11,10 +11,10 @@ import Foundation
 
 extension CDDatabase {
 	
-	static func add(db: OpaquePointer, column: Table.Column, to table: Table) -> Table {
+	static func add(_ db: OpaquePointer, column: Table.Column, to table: Table) -> Table {
 		let query = table.query(for: .addColumn(column))
 		CDDatabase._execute(db: db, query)
-		return CDDatabase.table(_ : db, named: table.name)!
+		return CDDatabase.table(db, named: table.name.replacingOccurrences(of: "\"", with: ""))!
 	}
 	
 }
@@ -25,7 +25,7 @@ extension CDDatabase {
 	
 	func add(column: Table.Column, to table: inout Table) {
 		sync { (db) in
-			table = CDDatabase.add(db: db, column: column, to: table)
+			table = CDDatabase.add(db, column: column, to: table)
 		}
 	}
 	
@@ -37,7 +37,7 @@ extension CDDatabase {
 	
 	func add(column: Table.Column, to table: Table, _ handler: @escaping (Table) -> Void) {
 		async { (db) in
-			handler(CDDatabase.add(db: db, column: column, to: table))
+			handler(CDDatabase.add(db, column: column, to: table))
 		}
 	}
 	

@@ -23,14 +23,14 @@ extension CDDatabase {
 				let t = writer.tableDefinition()
 				create(db: db, t)
 				
-				table = CDDatabase.table(_ : db, named: T.tableName)
+				table = CDDatabase.table(db, named: T.tableName)
 			}
 			
 			var a = table!
 			
 			try writer.replace(value, into: &table, db: db, newColumnsHandler: { columns in
 				for c in columns {
-					a = add(db: db, column: c, to: a)
+					a = add(db, column: c, to: a)
 				}
 			})
 			
