@@ -30,7 +30,6 @@ extension ColumnType {
 		case SQLITE_BLOB:
 			self = .blob
 		default:
-			print(value)
 			return nil
 		}
 	}
