@@ -1,3 +1,6 @@
+### NOTE
+README and framework are still in development and incomplete. This framework should not currently be used in production applications.
+
 # CodableData
 The simplest way to persist data in iOS
 
